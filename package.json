@@ -1,12 +1,14 @@
 {
   "name": "youtube-to-mp3",
   "version": "0.0.0",
+  "main": "app/main.js",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "electron": "ng build && electron ."
   },
   "private": true,
   "dependencies": {
