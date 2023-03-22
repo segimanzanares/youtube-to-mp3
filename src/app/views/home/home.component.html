@@ -28,13 +28,15 @@
                         </div>
                         <div class="col-auto d-flex">
                             <mat-card-actions align="end">
-                                <button mat-button>LIKE</button>
-                                <button mat-button>SHARE</button>
+                                <button mat-icon-button (click)="openPreview(item)">
+                                    <mat-icon>preview</mat-icon>
+                                </button>
+                                <button mat-icon-button color="accent"><mat-icon>download</mat-icon></button>
                             </mat-card-actions>
                         </div>
                     </div>
                 </mat-card>
-                <mat-paginator [length]="searchResults.total"
+                <mat-paginator class="mt-1" [length]="searchResults.total"
                     [pageSize]="25"
                     [pageSizeOptions]="[10, 25, 50, 100]"
                     (page)="handlePageEvent($event)"

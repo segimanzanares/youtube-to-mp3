@@ -1,10 +1,12 @@
-import { environment } from './../../../environments/environment';
 import { Component, OnInit } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
 import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { IYoutubeSearchParams, YoutubeItem } from './../../models/youtube-search';
 import { Paginator } from './../../models/paginator';
 import { YoutubeService } from './../../services/youtube.service';
-import { PageEvent } from '@angular/material/paginator';
+import { YoutubePreviewDialogComponent } from './../../components/youtube-preview-dialog/youtube-preview-dialog.component';
+import { environment } from './../../../environments/environment';
 
 @Component({
     templateUrl: './home.component.html',
@@ -23,6 +25,7 @@ export class HomeComponent implements OnInit {
     constructor(
         private fb: UntypedFormBuilder,
         private youtubeService: YoutubeService,
+        public dialog: MatDialog,
     ) {
         this.form = this.fb.group({
             query: ['', Validators.required],
@@ -68,5 +71,13 @@ export class HomeComponent implements OnInit {
             }
         }
         return this.paginate();
+    }
+
+    public openPreview(item: YoutubeItem) {
+        this.dialog.open(YoutubePreviewDialogComponent, {
+            data: {
+                videoId: item.id.videoId,
+            },
+        });
     }
 }

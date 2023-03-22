@@ -11,17 +11,20 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './views/home/home.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { YoutubePreviewDialogComponent } from './components/youtube-preview-dialog/youtube-preview-dialog.component';
 
 @NgModule({
     declarations: [
         AppComponent,
-        HomeComponent
+        HomeComponent,
+        YoutubePreviewDialogComponent
     ],
     imports: [
         BrowserModule,
@@ -38,6 +41,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         MatCardModule,
         MatSnackBarModule,
         MatPaginatorModule,
+        MatDialogModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
