@@ -19,12 +19,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './views/home/home.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { YoutubePreviewDialogComponent } from './components/youtube-preview-dialog/youtube-preview-dialog.component';
+import { YoutubeSearchComponent } from './components/youtube-search/youtube-search.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         HomeComponent,
-        YoutubePreviewDialogComponent
+        YoutubePreviewDialogComponent,
+        YoutubeSearchComponent
     ],
     imports: [
         BrowserModule,

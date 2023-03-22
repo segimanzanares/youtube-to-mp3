@@ -1,52 +1,7 @@
 <mat-tab-group color="accent" animationDuration="0ms" mat-stretch-tabs="false" mat-align-tabs="center">
     <mat-tab label="Búsqueda">
-        <div class="mx-3 my-5">
-            <form [formGroup]="form" (ngSubmit)="searchVideos()">
-                <div class="row g-0">
-                    <div class="col">
-                        <mat-form-field appearance="fill" class="w-100" color="accent">
-                            <mat-label>Ingresa el título del video</mat-label>
-                            <input matInput formControlName="query">
-                        </mat-form-field>
-                    </div>
-                    <div class="col-auto mt-1">
-                        <button type="submit" mat-fab extended color="primary" class="ms-1">
-                            <mat-icon>search</mat-icon>
-                            Buscar
-                        </button>
-                    </div>
-                </div>
-            </form>
-            <div class="mt-2 search-results">
-                <mat-card class="mt-1" *ngFor="let item of searchResults?.data">
-                    <div class="row">
-                        <div class="col">
-                            <mat-card-header>
-                                <mat-card-title>{{ item.snippet?.title }}</mat-card-title>
-                                <mat-card-subtitle>{{ item.snippet?.channelTitle }}</mat-card-subtitle>
-                            </mat-card-header>
-                        </div>
-                        <div class="col-auto d-flex">
-                            <mat-card-actions align="end">
-                                <button mat-icon-button (click)="openPreview(item)">
-                                    <mat-icon>preview</mat-icon>
-                                </button>
-                                <button mat-icon-button color="accent"><mat-icon>download</mat-icon></button>
-                            </mat-card-actions>
-                        </div>
-                    </div>
-                </mat-card>
-                <mat-paginator class="mt-1" [length]="searchResults.total"
-                    [pageSize]="25"
-                    [pageSizeOptions]="[10, 25, 50, 100]"
-                    (page)="handlePageEvent($event)"
-                    aria-label="Select page"
-                    *ngIf="searchResults">
-                </mat-paginator>
-            </div>
-        </div>
+        <app-youtube-search class="mx-3 my-5"></app-youtube-search>
     </mat-tab>
     <mat-tab label="Descarga">
-
     </mat-tab>
 </mat-tab-group>
