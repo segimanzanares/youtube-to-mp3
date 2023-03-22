@@ -4,6 +4,11 @@ import { HomeComponent } from './views/home/home.component';
 
 const routes: Routes = [
     {
+        path: '',
+        component: HomeComponent,
+        data: { title: 'Home', name: 'home' }
+    },
+    {
         path: 'home',
         component: HomeComponent,
         data: { title: 'Home', name: 'home' }

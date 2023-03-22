@@ -1,1 +1,43 @@
-<p>home works!</p>
+<mat-tab-group color="accent" animationDuration="0ms" mat-stretch-tabs="false" mat-align-tabs="center">
+    <mat-tab label="Búsqueda">
+        <div class="mx-3 my-5">
+            <form [formGroup]="form" (ngSubmit)="searchVideos()">
+                <div class="row g-0">
+                    <div class="col">
+                        <mat-form-field appearance="fill" class="w-100" color="accent">
+                            <mat-label>Ingresa el título del video</mat-label>
+                            <input matInput formControlName="query">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-auto mt-1">
+                        <button type="submit" mat-fab extended color="primary" class="ms-1">
+                            <mat-icon>search</mat-icon>
+                            Buscar
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <div class="mt-2 search-results">
+                <mat-card>
+                    <div class="row">
+                        <div class="col">
+                            <mat-card-header>
+                              <mat-card-title>Actions Buttons</mat-card-title>
+                              <mat-card-subtitle>End</mat-card-subtitle>
+                            </mat-card-header>
+                        </div>
+                        <div class="col-auto d-flex">
+                            <mat-card-actions align="end">
+                              <button mat-button>LIKE</button>
+                              <button mat-button>SHARE</button>
+                            </mat-card-actions>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+    </mat-tab>
+    <mat-tab label="Descarga">
+
+    </mat-tab>
+</mat-tab-group>
