@@ -3,19 +3,24 @@ export interface IYoutubeSearchParams {
     key: string;
     part: 'snippet' | 'id';
     maxResults: number;
+    type?: string;
     pageToken?: string;
+    playlistId?: string;
 }
 
 export interface IYoutubeItem {
     id: {
         videoId: string;
-    };
-    snippet?: {
+    } | string;
+    snippet: {
         publishedAt: string;
         channelId: string;
         title: string;
         description: string;
         channelTitle: string;
+        resourceId?: {
+            videoId: string;
+        }
     };
 }
 
@@ -27,25 +32,30 @@ export interface IYoutubeApiResponse {
     nextPageToken?: string;
     prevPageToken?: string;
     items: IYoutubeItem[];
+    kind: string;
 }
 
-export class YoutubeItem implements IYoutubeItem {
+export class YoutubeItem {
     constructor(
-        public id: {
-            videoId: string;
-        },
+        public videoId: string,
         public snippet?: {
             publishedAt: string;
             channelId: string;
             title: string;
             description: string;
             channelTitle: string;
+        },
+        public downloadInfo?: {
+            progress: string;
+            finished: boolean;
         }
     ) { }
 
-    public static fromJson(data: IYoutubeItem): YoutubeItem {
+    public static fromJson(data: IYoutubeItem, kind: string): YoutubeItem {
         return new YoutubeItem(
-            data.id,
+            kind === 'youtube#playlistItemListResponse'
+                ? (data.snippet.resourceId?.videoId ?? '')
+                : (typeof data.id === "string" ? data.id : data.id['videoId']),
             data.snippet
         );
     }

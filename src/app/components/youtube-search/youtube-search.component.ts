@@ -23,8 +23,10 @@ export class YoutubeSearchComponent {
         part: 'snippet',
         key: environment.googleApiKey,
         q: '',
+        type: 'video',
         maxResults: 25,
     };
+    public isPlaylist: boolean = false;
 
     constructor(
         private fb: UntypedFormBuilder,
@@ -37,10 +39,20 @@ export class YoutubeSearchComponent {
     }
 
     public searchVideos() {
-        const q = this.form.value.query;
-        this.searchParams.q = q;
+        const q: string = this.form.value.query;
+        if (q.startsWith('https://www.youtube.com/playlist?list=')) {
+            const params = new URLSearchParams(q.split('?')[1]);
+            const playlistId = params.get('list');
+            if (playlistId) {
+                this.isPlaylist = true;
+                this.searchParams.playlistId = playlistId;
+            }
+        }
+        if (!this.isPlaylist) {
+            this.searchParams.q = q;
+        }
         const ref = this.displayLoadingSpinner();
-        this.youtubeService.search(this.searchParams)
+        this.youtubeService.search(this.searchParams, this.isPlaylist)
             .then(result => {
                 this.searchResults = result;
             })
@@ -54,7 +66,7 @@ export class YoutubeSearchComponent {
                 : this.searchResults?.prevPageToken;
         }
         const ref = this.displayLoadingSpinner();
-        this.youtubeService.search(this.searchParams)
+        this.youtubeService.search(this.searchParams, this.isPlaylist)
             .then(result => {
                 this.searchResults = result;
             })
@@ -90,9 +102,10 @@ export class YoutubeSearchComponent {
     }
 
     public openPreview(item: YoutubeItem) {
+        console.log(item)
         this.dialog.open(YoutubePreviewDialogComponent, {
             data: {
-                videoId: item.id.videoId,
+                videoId: item.videoId,
             },
         });
     }
