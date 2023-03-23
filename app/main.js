@@ -1,6 +1,6 @@
 const { app, BrowserWindow, Menu, ipcMain, dialog } = require('electron')
 const path = require('path')
-
+const { handleYoutubeDownloadAudio } = require('./downloader')
 
 function createWindow() {
     const mainWindow = new BrowserWindow({
@@ -16,6 +16,7 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
+    ipcMain.handle('yt:downloadAudio', handleYoutubeDownloadAudio)
     createWindow()
     app.on('activate', function () {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
