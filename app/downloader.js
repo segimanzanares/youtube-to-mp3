@@ -1,28 +1,56 @@
-var queue = require('queue')
-var q = queue({ results: [] })
+const ytdl = require('ytdl-core')
+const ffmpeg = require('fluent-ffmpeg')
+const sanitize = require("sanitize-filename")
+const queue = require('queue')
 
-q.on('success', function (result, job) {
-    console.log('job finished processing:', job.toString().replace(/\n/g, ''))
-    console.log('The result is:', result)
-})
+let q = queue({ results: [] });
+q.concurrency = 1;
 
-const handleYoutubeDownloadAudio = (event, ...videoID) => {
-    console.log("Handle download")
-    console.log(videoID)
-    event.sender.send('audioprogress', `test downloaded mp3`);
-    function superSlowJob(cb) {
-        setTimeout(function () {
-            console.log('super slow job finished')
-            event.sender.send('audioprogress', `finished downloaded mp3`);
-            cb(null, 'download')
-        }, 4000)
-    }
-    superSlowJob.timeout = null
-    q.push(superSlowJob)
-    q.start(function (err) {
-        if (err) throw err
-        console.log('all new done:', q.results)
+const ffmpegSync = (event, info) => {
+    return new Promise((resolve, reject) => {
+        let stream = ytdl(info.videoId, {
+            quality: 'highestaudio',
+        })
+        const filename = sanitize(info.title) + '.mp3'
+        ffmpeg(stream)
+            .audioBitrate(128)
+            .save(`${__dirname}/${filename}`)
+            .on('progress', progress => {
+                info.details = `${progress.targetSize}kb`
+                event.sender.send('audioprogress', JSON.stringify(info));
+            })
+            .on('end', () => {
+                info.details = `Finished`;
+                info.finishedAt = Date.now();
+                event.sender.send('audioprogress', JSON.stringify(info));
+                resolve()
+            })
+            .on('error',(err)=>{
+                return reject(new Error(err))
+            })
     })
+ }
+
+const handleYoutubeDownloadAudio = async (event, ...args) => {
+    console.log("Handle download")
+    console.log(args[0])
+    const starttime = Date.now();
+    let info = {
+        videoId: args[0],
+        title: args[1],
+        startedAt: starttime,
+        finishedAt: null,
+        details: "Starting..."
+    }
+    // Iniciar job
+    let job = async (cb) => {
+        event.sender.send('audioprogress', JSON.stringify(info))
+        await ffmpegSync(event, info)
+        cb(null, `download ${info.videoId}`)
+    }
+    job.timeout = null
+    q.push(job)
+    q.start()
 }
 
 module.exports = {
