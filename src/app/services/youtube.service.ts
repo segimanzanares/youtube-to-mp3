@@ -19,14 +19,13 @@ export class YoutubeService {
         private ipcService: IpcService,
     ) { }
 
-    public search(params: IYoutubeSearchParams): Promise<Paginator<YoutubeItem>> {
-        return this.apiService.request<IYoutubeApiResponse>(
-            'get',
-            `https://youtube.googleapis.com/youtube/v3/search`,
-            params
-        ).then(response => {
+    public search(params: IYoutubeSearchParams, isPlaylist: boolean = false): Promise<Paginator<YoutubeItem>> {
+        const url = isPlaylist
+            ? 'https://www.googleapis.com/youtube/v3/playlistItems'
+            : 'https://youtube.googleapis.com/youtube/v3/search';
+        return this.apiService.request<IYoutubeApiResponse>('get', url, params).then(response => {
             return new Paginator(
-                response.items.map(i => YoutubeItem.fromJson(i)),
+                response.items.map(i => YoutubeItem.fromJson(i, response.kind)),
                 response.pageInfo.totalResults,
                 response.nextPageToken ? true : false,
                 response.nextPageToken,
