@@ -36,8 +36,11 @@ export class YoutubeService {
     }
 
     public addItemToDownloadList(item: YoutubeItem) {
-        this.downloadItems.push(item);
-        this.downloadItemsSubject.next(this.downloadItems);
-        //this.ipcService.downloadAudio(item.id.videoId);
+        const index = this.downloadItems.findIndex(i => i.videoId === item.videoId);
+        if (index === -1) {
+            this.downloadItems.push(item);
+            this.downloadItemsSubject.next(this.downloadItems);
+            //this.ipcService.downloadAudio(item.id.videoId);
+        }
     }
 }

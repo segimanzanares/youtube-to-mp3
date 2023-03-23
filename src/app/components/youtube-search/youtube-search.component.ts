@@ -115,7 +115,6 @@ export class YoutubeSearchComponent {
     }
 
     public openPreview(item: YoutubeItem) {
-        console.log(item)
         this.dialog.open(YoutubePreviewDialogComponent, {
             data: {
                 videoId: item.videoId,
