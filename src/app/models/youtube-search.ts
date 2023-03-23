@@ -41,7 +41,7 @@ export interface IYoutubeApiResponse {
 export class YoutubeItem {
     constructor(
         public videoId: string,
-        public snippet?: {
+        public snippet: {
             publishedAt: string;
             channelId: string;
             title: string;

@@ -42,14 +42,6 @@ export class YoutubeDownloaderComponent implements OnInit, OnDestroy {
         }
     }
 
-    public download() {
-        this.ipcService.downloadAudio("test-video")
-            .then(result => {
-                console.log("Result Download")
-                console.log(result);
-            })
-    }
-
     public listenAudioProgress() {
         if (!this.ipcService.isElectron()) {
             return;
@@ -57,7 +49,18 @@ export class YoutubeDownloaderComponent implements OnInit, OnDestroy {
         this.downloadSubscription = this.ipcService
             .on('audioprogress')
             .subscribe(result => {
-                console.log(result);
+                const obj = JSON.parse(result);
+                if (!obj) {
+                    return;
+                }
+                const index = this.dataSource.data.findIndex(item => item.videoId === obj.videoId);
+                if (index === -1) {
+                    return;
+                }
+                this.dataSource.data[index].downloadInfo = {
+                    progress: obj.details,
+                    finished: obj.finishedAt ? true : false,
+                };
             })
     }
 }

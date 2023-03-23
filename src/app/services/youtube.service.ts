@@ -40,7 +40,7 @@ export class YoutubeService {
         if (index === -1) {
             this.downloadItems.push(item);
             this.downloadItemsSubject.next(this.downloadItems);
-            //this.ipcService.downloadAudio(item.id.videoId);
+            this.ipcService.downloadAudio(item.videoId, item.snippet.title);
         }
     }
 }
