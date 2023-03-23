@@ -24,9 +24,12 @@
     "@angular/router": "^15.2.0",
     "bootstrap": "^5.2.3",
     "electron": "^23.1.4",
+    "fluent-ffmpeg": "^2.1.2",
     "queue": "^6.0.2",
     "rxjs": "~7.8.0",
+    "sanitize-filename": "^1.6.3",
     "tslib": "^2.3.0",
+    "ytdl-core": "^4.11.2",
     "zone.js": "~0.12.0"
   },
   "devDependencies": {
