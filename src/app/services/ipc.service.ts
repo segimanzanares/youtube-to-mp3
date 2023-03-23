@@ -3,7 +3,7 @@ import { IpcRenderer } from 'electron';
 import { Observable } from 'rxjs';
 
 interface CustomIpcRenderer extends IpcRenderer {
-    downloadAudio: (link: string) => Promise<any>;
+    downloadAudio: (...params: string[]) => Promise<any>;
 }
 
 declare global {
@@ -38,12 +38,11 @@ export class IpcService {
         window.electronAPI.send(channel, ...args);
     }
 
-    public async downloadAudio(videoId: string): Promise<string> {
+    public async downloadAudio(videoId: string, title: string): Promise<string> {
         if (!this.isElectron()) {
             return Promise.reject();
         }
-        console.log("Request video: " + videoId)
-        return await window.electronAPI.downloadAudio(videoId);
+        return await window.electronAPI.downloadAudio(videoId, title);
     }
 
     public removeAllListeners(channel: string): void {
