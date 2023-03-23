@@ -7,6 +7,7 @@ import { YoutubeItem, IYoutubeSearchParams } from './../../models/youtube-search
 import { YoutubeService } from './../../services/youtube.service';
 import { environment } from './../../../environments/environment';
 import { YoutubePreviewDialogComponent } from '../youtube-preview-dialog/youtube-preview-dialog.component';
+import { showAlertDialog } from './../../utils';
 
 @Component({
   selector: 'app-youtube-search',
@@ -37,10 +38,19 @@ export class YoutubeSearchComponent {
     public searchVideos() {
         const q = this.form.value.query;
         this.searchParams.q = q;
+        const ref = showAlertDialog(this.dialog, {
+            data: {
+                message: "Buscando...",
+                showAcceptButton: false,
+                type: 'loading',
+            },
+            disableClose: true,
+        });
         this.youtubeService.search(this.searchParams)
             .then(result => {
                 this.searchResults = result;
-            });
+            })
+            .finally(() => ref.close());
     }
 
     public paginate(page?: 'next' | 'prev') {
