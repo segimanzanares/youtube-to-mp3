@@ -1,0 +1,14 @@
+.mat-mdc-dialog-content {
+    .mat-icon {
+        font-size: 35px;
+        width: 35px;
+        height: 35px;
+        &.success {
+            color: #00922a;
+        }
+    }
+    .msg {
+        //width: 80%;
+        margin-bottom: 0;
+    }
+}

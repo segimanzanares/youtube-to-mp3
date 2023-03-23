@@ -14,6 +14,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,6 +24,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { YoutubePreviewDialogComponent } from './components/youtube-preview-dialog/youtube-preview-dialog.component';
 import { YoutubeSearchComponent } from './components/youtube-search/youtube-search.component';
 import { YoutubeDownloaderComponent } from './components/youtube-downloader/youtube-downloader.component';
+import { AlertDialogComponent } from './components/alert-dialog/alert-dialog.component';
 
 @NgModule({
     declarations: [
@@ -30,7 +32,8 @@ import { YoutubeDownloaderComponent } from './components/youtube-downloader/yout
         HomeComponent,
         YoutubePreviewDialogComponent,
         YoutubeSearchComponent,
-        YoutubeDownloaderComponent
+        YoutubeDownloaderComponent,
+        AlertDialogComponent,
     ],
     imports: [
         BrowserModule,
@@ -50,6 +53,7 @@ import { YoutubeDownloaderComponent } from './components/youtube-downloader/yout
         MatDialogModule,
         MatTableModule,
         MatProgressBarModule,
+        MatProgressSpinnerModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

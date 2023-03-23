@@ -1,0 +1,23 @@
+<h1 mat-dialog-title *ngIf="data['title']">{{ data['title'] }}</h1>
+<div mat-dialog-content>
+    <div class="d-flex">
+        <div class="align-self-center">
+            <mat-spinner [diameter]="40" color="accent" *ngIf="data['type'] && data['type'] === 'loading'"></mat-spinner>
+            <mat-icon aria-hidden="false" aria-label="Success icon"
+                   *ngIf="data['type'] && data['type'] === 'success'"
+                   class="success">done</mat-icon>
+            <mat-icon aria-hidden="false" aria-label="Info icon"
+                   *ngIf="data['type'] && data['type'] === 'info'"
+                   class="success">info</mat-icon>
+        </div>
+        <p class="msg align-self-center ms-3" *ngIf="data['type']"
+               [class.ml-3]="data['type'] && data['type'] === 'loading'"
+               [class.ml-4]="data['type'] && data['type'] !== 'loading'"
+               [innerHtml]="data['message']">
+        </p>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<div mat-dialog-actions *ngIf="data['showAcceptButton']">
+    <button mat-button mat-dialog-close="OK" cdkFocusInitial>Aceptar</button>
+</div>
