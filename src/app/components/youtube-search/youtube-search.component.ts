@@ -78,4 +78,8 @@ export class YoutubeSearchComponent {
             },
         });
     }
+
+    public download(item: YoutubeItem) {
+        this.youtubeService.addItemToDownloadList(item);
+    }
 }
