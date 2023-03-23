@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { Paginator } from './../../models/paginator';
 import { YoutubeItem, IYoutubeSearchParams } from './../../models/youtube-search';
@@ -8,6 +8,7 @@ import { YoutubeService } from './../../services/youtube.service';
 import { environment } from './../../../environments/environment';
 import { YoutubePreviewDialogComponent } from '../youtube-preview-dialog/youtube-preview-dialog.component';
 import { showAlertDialog } from './../../utils';
+import { AlertDialogComponent } from '../alert-dialog/alert-dialog.component';
 
 @Component({
   selector: 'app-youtube-search',
@@ -38,14 +39,7 @@ export class YoutubeSearchComponent {
     public searchVideos() {
         const q = this.form.value.query;
         this.searchParams.q = q;
-        const ref = showAlertDialog(this.dialog, {
-            data: {
-                message: "Buscando...",
-                showAcceptButton: false,
-                type: 'loading',
-            },
-            disableClose: true,
-        });
+        const ref = this.displayLoadingSpinner();
         this.youtubeService.search(this.searchParams)
             .then(result => {
                 this.searchResults = result;
@@ -59,10 +53,24 @@ export class YoutubeSearchComponent {
                 ? this.searchResults?.nextPageToken
                 : this.searchResults?.prevPageToken;
         }
+        const ref = this.displayLoadingSpinner();
         this.youtubeService.search(this.searchParams)
             .then(result => {
                 this.searchResults = result;
-            });
+            })
+            .finally(() => ref.close());
+    }
+
+    private displayLoadingSpinner(): MatDialogRef<AlertDialogComponent> {
+        const ref = showAlertDialog(this.dialog, {
+            data: {
+                message: "Buscando...",
+                showAcceptButton: false,
+                type: 'loading',
+            },
+            disableClose: true,
+        });
+        return ref;
     }
 
     public handlePageEvent(e: PageEvent) {
