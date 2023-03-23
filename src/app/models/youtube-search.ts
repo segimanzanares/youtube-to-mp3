@@ -1,3 +1,5 @@
+export type SearchType = 'search' | 'playlistItems' | 'videos';
+
 export interface IYoutubeSearchParams {
     q: string;
     key: string;
@@ -6,6 +8,7 @@ export interface IYoutubeSearchParams {
     type?: string;
     pageToken?: string;
     playlistId?: string;
+    id?: string;
 }
 
 export interface IYoutubeItem {
@@ -53,9 +56,9 @@ export class YoutubeItem {
 
     public static fromJson(data: IYoutubeItem, kind: string): YoutubeItem {
         return new YoutubeItem(
-            kind === 'youtube#playlistItemListResponse'
+            ['youtube#playlistItemListResponse'].indexOf(kind) !== -1
                 ? (data.snippet.resourceId?.videoId ?? '')
-                : (typeof data.id === "string" ? data.id : data.id['videoId']),
+                : (typeof data.id === "string" ? data.id : data.id.videoId),
             data.snippet
         );
     }

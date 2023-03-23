@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiService } from './api.service';
 import { IpcService } from './ipc.service';
 import { Paginator } from '../models/paginator';
-import { IYoutubeApiResponse, IYoutubeSearchParams, YoutubeItem } from '../models/youtube-search';
+import { IYoutubeApiResponse, IYoutubeSearchParams, SearchType, YoutubeItem } from '../models/youtube-search';
 
 @Injectable({
     providedIn: 'root'
@@ -19,11 +19,12 @@ export class YoutubeService {
         private ipcService: IpcService,
     ) { }
 
-    public search(params: IYoutubeSearchParams, isPlaylist: boolean = false): Promise<Paginator<YoutubeItem>> {
-        const url = isPlaylist
-            ? 'https://www.googleapis.com/youtube/v3/playlistItems'
-            : 'https://youtube.googleapis.com/youtube/v3/search';
-        return this.apiService.request<IYoutubeApiResponse>('get', url, params).then(response => {
+    public search(
+        params: IYoutubeSearchParams,
+        searchType: SearchType = "search"
+    ): Promise<Paginator<YoutubeItem>> {
+        const baseUrl = 'https://www.googleapis.com/youtube/v3/';
+        return this.apiService.request<IYoutubeApiResponse>('get', `${baseUrl}${searchType}`, params).then(response => {
             return new Paginator(
                 response.items.map(i => YoutubeItem.fromJson(i, response.kind)),
                 response.pageInfo.totalResults,
