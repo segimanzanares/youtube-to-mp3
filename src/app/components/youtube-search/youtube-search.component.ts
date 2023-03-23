@@ -3,7 +3,7 @@ import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { Paginator } from './../../models/paginator';
-import { YoutubeItem, IYoutubeSearchParams } from './../../models/youtube-search';
+import { YoutubeItem, IYoutubeSearchParams, SearchType } from './../../models/youtube-search';
 import { YoutubeService } from './../../services/youtube.service';
 import { environment } from './../../../environments/environment';
 import { YoutubePreviewDialogComponent } from '../youtube-preview-dialog/youtube-preview-dialog.component';
@@ -26,7 +26,7 @@ export class YoutubeSearchComponent {
         type: 'video',
         maxResults: 25,
     };
-    public isPlaylist: boolean = false;
+    public searchType: SearchType = 'search';
 
     constructor(
         private fb: UntypedFormBuilder,
@@ -40,19 +40,32 @@ export class YoutubeSearchComponent {
 
     public searchVideos() {
         const q: string = this.form.value.query;
+        this.searchType = 'search';
+        this.searchParams.playlistId = void 0;
+        this.searchParams.id = void 0;
         if (q.startsWith('https://www.youtube.com/playlist?list=')) {
             const params = new URLSearchParams(q.split('?')[1]);
-            const playlistId = params.get('list');
-            if (playlistId) {
-                this.isPlaylist = true;
-                this.searchParams.playlistId = playlistId;
-            }
+            const playlistId = params.get('list') ?? '';
+            this.searchType = 'playlistItems';
+            this.searchParams.playlistId = playlistId;
         }
-        if (!this.isPlaylist) {
+        else if (q.startsWith('https://www.youtube.com/watch?v=') || q.startsWith('https://youtu.be/')) {
+            let videoId: string;
+            if (q.startsWith('https://youtu.be/')) {
+                videoId = q.replace('https://youtu.be/', '');
+            }
+            else {
+                const params = new URLSearchParams(q.split('?')[1]);
+                videoId = params.get('v') ?? '';
+            }
+            this.searchType = 'videos';
+            this.searchParams.id = videoId;
+        }
+        if (this.searchType === 'search') {
             this.searchParams.q = q;
         }
         const ref = this.displayLoadingSpinner();
-        this.youtubeService.search(this.searchParams, this.isPlaylist)
+        this.youtubeService.search(this.searchParams, this.searchType)
             .then(result => {
                 this.searchResults = result;
             })
@@ -66,7 +79,7 @@ export class YoutubeSearchComponent {
                 : this.searchResults?.prevPageToken;
         }
         const ref = this.displayLoadingSpinner();
-        this.youtubeService.search(this.searchParams, this.isPlaylist)
+        this.youtubeService.search(this.searchParams, this.searchType)
             .then(result => {
                 this.searchResults = result;
             })
