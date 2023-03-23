@@ -1,0 +1,29 @@
+
+<div class="mx-3 my-5">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" >
+        <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef>Título</th>
+            <td mat-cell *matCellDef="let element"> {{ element.snippet?.title }} </td>
+        </ng-container>
+        <ng-container matColumnDef="channelTitle">
+            <th mat-header-cell *matHeaderCellDef>Canal</th>
+            <td mat-cell *matCellDef="let element"> {{ element.snippet?.channelTitle }} </td>
+        </ng-container>
+        <ng-container matColumnDef="progress">
+            <th mat-header-cell *matHeaderCellDef>Progreso</th>
+            <td mat-cell *matCellDef="let element">
+                <div class="row g-0 d-flex align-items-center">
+                    <div class="col">
+                        <mat-progress-bar mode="indeterminate" color="warn"></mat-progress-bar>
+                    </div>
+                    <div class="col-auto">
+                        <span class="ms-2">128kb</span>
+                    </div>
+                </div>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>

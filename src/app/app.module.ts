@@ -12,6 +12,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTableModule } from '@angular/material/table';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,13 +22,15 @@ import { HomeComponent } from './views/home/home.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { YoutubePreviewDialogComponent } from './components/youtube-preview-dialog/youtube-preview-dialog.component';
 import { YoutubeSearchComponent } from './components/youtube-search/youtube-search.component';
+import { YoutubeDownloaderComponent } from './components/youtube-downloader/youtube-downloader.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         HomeComponent,
         YoutubePreviewDialogComponent,
-        YoutubeSearchComponent
+        YoutubeSearchComponent,
+        YoutubeDownloaderComponent
     ],
     imports: [
         BrowserModule,
@@ -44,6 +48,8 @@ import { YoutubeSearchComponent } from './components/youtube-search/youtube-sear
         MatSnackBarModule,
         MatPaginatorModule,
         MatDialogModule,
+        MatTableModule,
+        MatProgressBarModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
