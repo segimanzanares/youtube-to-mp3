@@ -6,4 +6,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
     removeAllListeners: (channel) => ipcRenderer.removeAllListeners(channel),
     downloadAudio: (...args) => ipcRenderer.invoke('yt:downloadAudio', ...args),
     openFolder: () => ipcRenderer.invoke('dialog:openFolder'),
+    getFromStorage: (key) => ipcRenderer.invoke('storage:get', key),
 })

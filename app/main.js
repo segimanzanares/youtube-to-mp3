@@ -1,6 +1,8 @@
 const { app, BrowserWindow, Menu, ipcMain, dialog } = require('electron')
 const path = require('path')
 const { handleYoutubeDownloadAudio } = require('./downloader')
+const Store = require("electron-store")
+const store = new Store();
 
 function createWindow() {
     const mainWindow = new BrowserWindow({
@@ -12,7 +14,7 @@ function createWindow() {
     mainWindow.loadFile(
         path.join(__dirname, '../dist/youtube-to-mp3/index.html')
     )
-    mainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools()
 }
 
 async function handleFolderOpen() {
@@ -20,13 +22,22 @@ async function handleFolderOpen() {
         properties: ['openDirectory']
     })
     const folder = canceled ? null : filePaths[0]
-    // TODO: Guardar carpeta seleccionada
+    // Guardar carpeta seleccionada
+    if (folder) {
+        store.set('download-folder', folder)
+    }
     return folder
+}
+
+function handleGetFromStorage(event, key) {
+    const val = store.get(key) ?? null
+    return val
 }
 
 app.whenReady().then(() => {
     ipcMain.handle('yt:downloadAudio', handleYoutubeDownloadAudio)
     ipcMain.handle('dialog:openFolder', handleFolderOpen)
+    ipcMain.handle('storage:get', handleGetFromStorage)
     createWindow()
     app.on('activate', function () {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
