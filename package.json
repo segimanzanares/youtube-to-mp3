@@ -24,6 +24,7 @@
     "@angular/router": "^15.2.0",
     "bootstrap": "^5.2.3",
     "electron": "^23.1.4",
+    "electron-store": "^8.1.0",
     "fluent-ffmpeg": "^2.1.2",
     "queue": "^6.0.2",
     "rxjs": "~7.8.0",
