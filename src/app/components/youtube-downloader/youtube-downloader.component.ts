@@ -42,6 +42,14 @@ export class YoutubeDownloaderComponent implements OnInit, OnDestroy {
         }
     }
 
+    public get downloadFolder(): string {
+        return this.youtubeService.downloadFolder;
+    }
+
+    public set downloadFolder(value: string) {
+        this.youtubeService.downloadFolder = value;
+    }
+
     public listenAudioProgress() {
         if (!this.ipcService.isElectron()) {
             return;
@@ -62,5 +70,13 @@ export class YoutubeDownloaderComponent implements OnInit, OnDestroy {
                     finished: obj.finishedAt ? true : false,
                 };
             })
+    }
+
+    public selectFolder() {
+        this.ipcService.openFolder().then(response => {
+            if (response) {
+                this.downloadFolder = response;
+            }
+        })
     }
 }
