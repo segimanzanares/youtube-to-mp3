@@ -1,9 +1,9 @@
-import { YoutubeService } from './../../services/youtube.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
+import { MatTableDataSource } from '@angular/material/table';
 import { YoutubeItem } from './../../models/youtube-search';
 import { IpcService } from './../../services/ipc.service';
-import { MatTableDataSource } from '@angular/material/table';
+import { YoutubeService } from './../../services/youtube.service';
 
 @Component({
     selector: 'app-youtube-downloader',
@@ -30,6 +30,12 @@ export class YoutubeDownloaderComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.listenAudioProgress();
+        this.ipcService.getFromStorage('download-folder')
+            .then(response => {
+                if (response) {
+                    this.downloadFolder = response;
+                }
+            });
     }
 
     ngOnDestroy(): void {
