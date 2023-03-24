@@ -1,5 +1,23 @@
 
 <div class="mx-3 my-5">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="row g-0">
+                <div class="col">
+                    <mat-form-field appearance="fill" class="w-100" color="accent">
+                        <mat-label>Seleccionar carpeta de descarga</mat-label>
+                        <input matInput readonly [value]="downloadFolder">
+                    </mat-form-field>
+                </div>
+                <div class="col-auto mt-1">
+                    <button type="submit" mat-fab extended color="primary" class="ms-1" (click)="selectFolder()">
+                        <mat-icon>folder_open</mat-icon>
+                        Seleccionar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" >
         <ng-container matColumnDef="title">
             <th mat-header-cell *matHeaderCellDef>Título</th>

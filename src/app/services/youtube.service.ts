@@ -13,6 +13,7 @@ export class YoutubeService {
     private downloadItems: YoutubeItem[] = [];
     private downloadItemsSubject: BehaviorSubject<YoutubeItem[]> = new BehaviorSubject<YoutubeItem[]>(this.downloadItems);
     public downloadItems$: Observable<YoutubeItem[]> = this.downloadItemsSubject.asObservable();
+    public downloadFolder: string = '';
 
     constructor(
         private apiService: ApiService,

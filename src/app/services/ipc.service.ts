@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 interface CustomIpcRenderer extends IpcRenderer {
     downloadAudio: (...params: string[]) => Promise<any>;
+    openFolder: () => Promise<string>;
 }
 
 declare global {
@@ -50,5 +51,12 @@ export class IpcService {
             return;
         }
         window.electronAPI.removeAllListeners(channel);
+    }
+
+    public async openFolder(): Promise<string> {
+        if (!this.isElectron()) {
+            return Promise.reject();
+        }
+        return await window.electronAPI.openFolder();
     }
 }

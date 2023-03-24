@@ -15,8 +15,18 @@ function createWindow() {
     mainWindow.webContents.openDevTools();
 }
 
+async function handleFolderOpen() {
+    const { canceled, filePaths } = await dialog.showOpenDialog({
+        properties: ['openDirectory']
+    })
+    const folder = canceled ? null : filePaths[0]
+    // TODO: Guardar carpeta seleccionada
+    return folder
+}
+
 app.whenReady().then(() => {
     ipcMain.handle('yt:downloadAudio', handleYoutubeDownloadAudio)
+    ipcMain.handle('dialog:openFolder', handleFolderOpen)
     createWindow()
     app.on('activate', function () {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
