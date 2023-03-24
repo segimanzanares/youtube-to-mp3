@@ -1,10 +1,12 @@
 const ytdl = require('ytdl-core')
 const ffmpeg = require('fluent-ffmpeg')
 const sanitize = require("sanitize-filename")
+const Store = require("electron-store")
 const queue = require('queue')
 
 let q = queue({ results: [] });
 q.concurrency = 1;
+const store = new Store();
 
 const ffmpegSync = (event, info) => {
     return new Promise((resolve, reject) => {
@@ -12,9 +14,10 @@ const ffmpegSync = (event, info) => {
             quality: 'highestaudio',
         })
         const filename = sanitize(info.title) + '.mp3'
+        const directory = store.get('download-folder') ?? __dirname;
         ffmpeg(stream)
             .audioBitrate(128)
-            .save(`${__dirname}/${filename}`)
+            .save(`${directory}/${filename}`)
             .on('progress', progress => {
                 info.details = `${progress.targetSize}kb`
                 event.sender.send('audioprogress', JSON.stringify(info));
