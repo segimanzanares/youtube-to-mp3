@@ -5,6 +5,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { Paginator } from './../../models/paginator';
 import { YoutubeItem, IYoutubeSearchParams, SearchType } from './../../models/youtube-search';
 import { YoutubeService } from './../../services/youtube.service';
+import { IpcService } from './../../services/ipc.service';
 import { environment } from './../../../environments/environment';
 import { YoutubePreviewDialogComponent } from '../youtube-preview-dialog/youtube-preview-dialog.component';
 import { showAlertDialog } from './../../utils';
@@ -31,6 +32,7 @@ export class YoutubeSearchComponent {
     constructor(
         private fb: UntypedFormBuilder,
         private youtubeService: YoutubeService,
+        private ipcService: IpcService,
         public dialog: MatDialog,
     ) {
         this.form = this.fb.group({
@@ -123,6 +125,16 @@ export class YoutubeSearchComponent {
     }
 
     public download(item: YoutubeItem) {
-        this.youtubeService.addItemToDownloadList(item);
+        if (!this.youtubeService.downloadFolder) {
+            this.ipcService.openFolder().then(response => {
+                if (response) {
+                    this.youtubeService.downloadFolder = response;
+                    this.youtubeService.addItemToDownloadList(item);
+                }
+            })
+        }
+        else {
+            this.youtubeService.addItemToDownloadList(item);
+        }
     }
 }
