@@ -11,20 +11,33 @@ export interface IYoutubeSearchParams {
     id?: string;
 }
 
+interface Thumbnail {
+    width: number;
+    height: number;
+    url: string;
+}
+
+interface Snippet {
+    publishedAt: string;
+    channelId: string;
+    title: string;
+    description: string;
+    channelTitle: string;
+    thumbnails: {
+        default: Thumbnail;
+        medium: Thumbnail;
+        high: Thumbnail;
+    },
+    resourceId?: {
+        videoId: string;
+    }
+}
+
 export interface IYoutubeItem {
     id: {
         videoId: string;
     } | string;
-    snippet: {
-        publishedAt: string;
-        channelId: string;
-        title: string;
-        description: string;
-        channelTitle: string;
-        resourceId?: {
-            videoId: string;
-        }
-    };
+    snippet: Snippet
 }
 
 export interface IYoutubeApiResponse {
@@ -41,13 +54,7 @@ export interface IYoutubeApiResponse {
 export class YoutubeItem {
     constructor(
         public videoId: string,
-        public snippet: {
-            publishedAt: string;
-            channelId: string;
-            title: string;
-            description: string;
-            channelTitle: string;
-        },
+        public snippet: Snippet,
         public downloadInfo?: {
             progress: string;
             finished: boolean;

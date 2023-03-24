@@ -19,7 +19,10 @@
         <mat-card class="mt-1" *ngFor="let item of searchResults?.data">
             <div class="row">
                 <div class="col">
-                    <mat-card-header>
+                    <mat-card-header class="p-2">
+                        <div mat-card-avatar class="">
+                            <img [src]="item.snippet.thumbnails.default.url" alt="Thumb">
+                        </div>
                         <mat-card-title>{{ item.snippet.title }}</mat-card-title>
                         <mat-card-subtitle>{{ item.snippet.channelTitle }}</mat-card-subtitle>
                     </mat-card-header>
