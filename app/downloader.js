@@ -19,7 +19,7 @@ const ffmpegSync = (event, info) => {
         const filename = sanitize(info.title) + '.mp3'
         const directory = store.get('download-folder') ?? __dirname
         ffmpeg(stream)
-            .audioBitrate(128)
+            .audioBitrate(160)
             .save(`${directory}/${filename}`)
             .on('end', () => {
                 info.status = 'finished'
@@ -46,7 +46,7 @@ const handleYoutubeDownloadAudio = async (event, ...args) => {
     }
     event.sender.send('audioprogress', JSON.stringify(info))
     // Iniciar job
-    let job = async (cb) => {
+    async function job(cb) {
         try {
             await ffmpegSync(event, info)
         } catch (e) {
