@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiService } from './api.service';
 import { IpcService } from './ipc.service';
 import { Paginator } from '../models/paginator';
-import { IYoutubeApiResponse, IYoutubeSearchParams, SearchType, YoutubeItem } from '../models/youtube-search';
+import { DownloadInfo, IYoutubeApiResponse, IYoutubeSearchParams, SearchType, YoutubeItem } from '../models/youtube-search';
 
 @Injectable({
     providedIn: 'root'
@@ -42,5 +42,13 @@ export class YoutubeService {
             this.downloadItemsSubject.next(this.downloadItems);
             this.ipcService.downloadAudio(item.videoId, item.snippet.title);
         }
+    }
+
+    public updateDownloadInfo(index: number, info: DownloadInfo) {
+        if (index < 0) {
+            return;
+        }
+        this.downloadItems[index].downloadInfo = info;
+        this.downloadItemsSubject.next(this.downloadItems);
     }
 }
