@@ -31,14 +31,15 @@
             <th mat-header-cell *matHeaderCellDef>Progreso</th>
             <td mat-cell *matCellDef="let element">
                 <div class="row g-0 d-flex align-items-center" *ngIf="element.downloadInfo">
-                    <div class="col me-2" *ngIf="!element.downloadInfo?.finished">
+                    <div class="col me-2" *ngIf="element.isDownloading()">
                         <mat-progress-bar mode="indeterminate" color="warn"></mat-progress-bar>
                     </div>
-                    <div class="col-auto">
+                    <div class="col-auto" *ngIf="!element.isDownloading()">
                         <span class="badge rounded-pill text-bg-primary"
-                                [class.text-bg-primary]="!element.downloadInfo?.finished"
-                                [class.text-bg-success]="element.downloadInfo?.finished">
-                            {{ element.downloadInfo?.progress }}
+                                [class.text-bg-primary]="element.downloadInfo?.status === 'waiting'"
+                                [class.text-bg-danger]="element.downloadInfo?.status === 'error'"
+                                [class.text-bg-success]="element.downloadInfo?.status === 'finished'">
+                            {{ element.downloadInfo?.details }}
                         </span>
                     </div>
                 </div>

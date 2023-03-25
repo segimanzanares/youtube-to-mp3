@@ -10,22 +10,22 @@ const store = new Store();
 
 const ffmpegSync = (event, info) => {
     return new Promise((resolve, reject) => {
+        info.status = 'downloading'
+        info.details = "Descargando"
+        event.sender.send('audioprogress', JSON.stringify(info))
         let stream = ytdl(info.videoId, {
             quality: 'highestaudio',
         })
         const filename = sanitize(info.title) + '.mp3'
-        const directory = store.get('download-folder') ?? __dirname;
+        const directory = store.get('download-folder') ?? __dirname
         ffmpeg(stream)
             .audioBitrate(128)
             .save(`${directory}/${filename}`)
-            .on('progress', progress => {
-                info.details = `${progress.targetSize}kb`
-                event.sender.send('audioprogress', JSON.stringify(info));
-            })
             .on('end', () => {
-                info.details = `Finished`;
-                info.finishedAt = Date.now();
-                event.sender.send('audioprogress', JSON.stringify(info));
+                info.status = 'finished'
+                info.details = "Finalizado"
+                info.finishedAt = Date.now()
+                event.sender.send('audioprogress', JSON.stringify(info))
                 resolve()
             })
             .on('error',(err)=>{
@@ -35,20 +35,26 @@ const ffmpegSync = (event, info) => {
  }
 
 const handleYoutubeDownloadAudio = async (event, ...args) => {
-    console.log("Handle download")
-    console.log(args[0])
     const starttime = Date.now();
     let info = {
         videoId: args[0],
         title: args[1],
         startedAt: starttime,
         finishedAt: null,
-        details: "Starting..."
+        status: 'waiting',
+        details: "Esperando..."
     }
+    event.sender.send('audioprogress', JSON.stringify(info))
     // Iniciar job
     let job = async (cb) => {
-        event.sender.send('audioprogress', JSON.stringify(info))
-        await ffmpegSync(event, info)
+        try {
+            await ffmpegSync(event, info)
+        } catch (e) {
+            info.status = 'error'
+            info.details = "Error"
+            info.finishedAt = Date.now();
+            event.sender.send('audioprogress', JSON.stringify(info))
+        }
         cb(null, `download ${info.videoId}`)
     }
     job.timeout = null
