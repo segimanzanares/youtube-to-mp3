@@ -8,7 +8,6 @@ import { IYoutubeApiResponse, IYoutubeSearchParams, SearchType, YoutubeItem } fr
 @Injectable({
     providedIn: 'root'
 })
-
 export class YoutubeService {
     private downloadItems: YoutubeItem[] = [];
     private downloadItemsSubject: BehaviorSubject<YoutubeItem[]> = new BehaviorSubject<YoutubeItem[]>(this.downloadItems);

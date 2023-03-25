@@ -33,6 +33,15 @@ interface Snippet {
     }
 }
 
+export interface DownloadInfo {
+    videoId: string;
+    title: string;
+    startedAt: number;
+    finishedAt: number;
+    status: string;
+    details: string;
+}
+
 export interface IYoutubeItem {
     id: {
         videoId: string;
@@ -55,10 +64,7 @@ export class YoutubeItem {
     constructor(
         public videoId: string,
         public snippet: Snippet,
-        public downloadInfo?: {
-            progress: string;
-            finished: boolean;
-        }
+        public downloadInfo?: DownloadInfo
     ) { }
 
     public static fromJson(data: IYoutubeItem, kind: string): YoutubeItem {
@@ -68,5 +74,13 @@ export class YoutubeItem {
                 : (typeof data.id === "string" ? data.id : data.id.videoId),
             data.snippet
         );
+    }
+
+    public hasFinished(): boolean {
+        return ['finished', 'error'].indexOf(this.downloadInfo?.status ?? '') !== -1;
+    }
+
+    public isDownloading(): boolean {
+        return this.downloadInfo?.status === 'downloading';
     }
 }

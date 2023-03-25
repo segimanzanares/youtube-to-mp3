@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
-import { YoutubeItem } from './../../models/youtube-search';
+import { DownloadInfo, YoutubeItem } from './../../models/youtube-search';
 import { IpcService } from './../../services/ipc.service';
 import { YoutubeService } from './../../services/youtube.service';
 
@@ -63,7 +63,7 @@ export class YoutubeDownloaderComponent implements OnInit, OnDestroy {
         this.downloadSubscription = this.ipcService
             .on('audioprogress')
             .subscribe(result => {
-                const obj = JSON.parse(result);
+                const obj: DownloadInfo = JSON.parse(result);
                 if (!obj) {
                     return;
                 }
@@ -71,10 +71,7 @@ export class YoutubeDownloaderComponent implements OnInit, OnDestroy {
                 if (index === -1) {
                     return;
                 }
-                this.dataSource.data[index].downloadInfo = {
-                    progress: obj.details,
-                    finished: obj.finishedAt ? true : false,
-                };
+                this.dataSource.data[index].downloadInfo = obj;
             })
     }
 
