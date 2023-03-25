@@ -63,15 +63,15 @@ export class YoutubeDownloaderComponent implements OnInit, OnDestroy {
         this.downloadSubscription = this.ipcService
             .on('audioprogress')
             .subscribe(result => {
-                const obj: DownloadInfo = JSON.parse(result);
-                if (!obj) {
+                const info: DownloadInfo = JSON.parse(result);
+                if (!info) {
                     return;
                 }
-                const index = this.dataSource.data.findIndex(item => item.videoId === obj.videoId);
+                const index = this.dataSource.data.findIndex(item => item.videoId === info.videoId);
                 if (index === -1) {
                     return;
                 }
-                this.dataSource.data[index].downloadInfo = obj;
+                this.youtubeService.updateDownloadInfo(index, info);
             })
     }
 

@@ -2,7 +2,12 @@
     <mat-tab label="Búsqueda">
         <app-youtube-search></app-youtube-search>
     </mat-tab>
-    <mat-tab label="Descarga">
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <span [matBadge]="(pendingItems$ | async)?.length"
+                matBadgeOverlap="false"
+                [matBadgeHidden]="(pendingItems$ | async)?.length == 0">Descarga</span>
+        </ng-template>
         <app-youtube-downloader></app-youtube-downloader>
     </mat-tab>
 </mat-tab-group>
