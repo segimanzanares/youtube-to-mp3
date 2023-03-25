@@ -14,7 +14,6 @@ function createWindow() {
     mainWindow.loadFile(
         path.join(__dirname, '../dist/youtube-to-mp3/index.html')
     )
-    mainWindow.webContents.openDevTools()
 }
 
 async function handleFolderOpen() {
