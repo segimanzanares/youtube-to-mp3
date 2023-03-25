@@ -2,13 +2,19 @@
   "name": "youtube-to-mp3",
   "version": "0.0.0",
   "main": "app/main.js",
+  "build": {
+    "appId": "Youtube2MP3"
+  },
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "electron": "ng build && electron ."
+    "ng-serve": "ng serve",
+    "ng-build": "ng build",
+    "ng-watch": "ng build --watch --configuration development",
+    "ng-test": "ng test",
+    "electron": "ng build && electron .",
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "private": true,
   "dependencies": {
@@ -23,7 +29,6 @@
     "@angular/platform-browser-dynamic": "^15.2.0",
     "@angular/router": "^15.2.0",
     "bootstrap": "^5.2.3",
-    "electron": "^23.1.4",
     "electron-store": "^8.1.0",
     "fluent-ffmpeg": "^2.1.2",
     "queue": "^6.0.2",
@@ -37,7 +42,12 @@
     "@angular-devkit/build-angular": "^15.2.4",
     "@angular/cli": "~15.2.4",
     "@angular/compiler-cli": "^15.2.0",
+    "@electron-forge/cli": "^6.0.5",
+    "@electron-forge/maker-deb": "^6.0.5",
+    "@electron-forge/maker-squirrel": "^6.0.5",
+    "@electron-forge/maker-zip": "^6.0.5",
     "@types/jasmine": "~4.3.0",
+    "electron": "^23.2.0",
     "jasmine-core": "~4.5.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",
@@ -45,5 +55,37 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
     "typescript": "~4.9.4"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "electron_quick_start"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {
+            "options": {
+              "description": "App for downloading mp3 audio from Youtube videos.",
+              "depends": ["ffmpeg"]
+            }
+          }
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
   }
 }
