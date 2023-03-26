@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { ApiService } from './api.service';
 import { IpcService } from './ipc.service';
 import { Paginator } from '../models/paginator';
@@ -13,6 +13,7 @@ export class YoutubeService {
     private downloadItemsSubject: BehaviorSubject<YoutubeItem[]> = new BehaviorSubject<YoutubeItem[]>(this.downloadItems);
     public downloadItems$: Observable<YoutubeItem[]> = this.downloadItemsSubject.asObservable();
     public downloadFolder: string = '';
+    public loadingItems: boolean = false;
 
     constructor(
         private apiService: ApiService,
@@ -22,17 +23,23 @@ export class YoutubeService {
     public search(
         params: IYoutubeSearchParams,
         searchType: SearchType = "search"
-    ): Promise<Paginator<YoutubeItem>> {
+    ): Observable<Paginator<YoutubeItem>> {
         const baseUrl = 'https://www.googleapis.com/youtube/v3/';
-        return this.apiService.request<IYoutubeApiResponse>('get', `${baseUrl}${searchType}`, params).then(response => {
-            return new Paginator(
-                response.items.map(i => YoutubeItem.fromJson(i, response.kind)),
-                response.pageInfo.totalResults,
-                response.nextPageToken ? true : false,
-                response.nextPageToken,
-                response.prevPageToken,
-            )
-        });
+        this.loadingItems = true;
+        return this.apiService.request<IYoutubeApiResponse>(
+            'get', `${baseUrl}${searchType}`, params
+        ).pipe(
+            map(response => {
+                this.loadingItems = false;
+                return new Paginator(
+                    response.items.map(i => YoutubeItem.fromJson(i, response.kind)),
+                    response.pageInfo.totalResults,
+                    response.nextPageToken ? true : false,
+                    response.nextPageToken,
+                    response.prevPageToken,
+                )
+            })
+        );
     }
 
     public addItemToDownloadList(item: YoutubeItem) {

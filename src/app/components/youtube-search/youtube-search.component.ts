@@ -68,10 +68,10 @@ export class YoutubeSearchComponent {
         }
         const ref = this.displayLoadingSpinner();
         this.youtubeService.search(this.searchParams, this.searchType)
-            .then(result => {
-                this.searchResults = result;
-            })
-            .finally(() => ref.close());
+            .subscribe({
+                next: response => this.searchResults = response,
+                complete: () => ref.close(),
+            });
     }
 
     public paginate(page?: 'next' | 'prev') {
@@ -82,10 +82,10 @@ export class YoutubeSearchComponent {
         }
         const ref = this.displayLoadingSpinner();
         this.youtubeService.search(this.searchParams, this.searchType)
-            .then(result => {
-                this.searchResults = result;
-            })
-            .finally(() => ref.close());
+            .subscribe({
+                next: response => this.searchResults = response,
+                complete: () => ref.close(),
+            });
     }
 
     private displayLoadingSpinner(): MatDialogRef<AlertDialogComponent> {

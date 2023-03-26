@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { firstValueFrom, Observable } from 'rxjs';
+import { catchError, firstValueFrom, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -21,7 +21,7 @@ export class ApiService {
     ) { }
 
 
-    private handleError(error: HttpErrorResponse): Promise<any> {
+    private handleError(error: HttpErrorResponse): HttpErrorResponse {
         if (!window.navigator.onLine) {
             let msg = "No internet connection.";
             this.snackBar.open(msg, "Aceptar", {
@@ -49,10 +49,10 @@ export class ApiService {
                 duration: 10000,
             });
         }
-        return Promise.reject(error);
+        return error;
     }
 
-    public request<T = any>(method: string, urlPath: string, data: { [k: string]: any }): Promise<T> {
+    public request<T = any>(method: string, urlPath: string, data: { [k: string]: any }): Observable<T> {
         let url: string = `${urlPath}`;
         let httpOptions: HttpOptions = {
             headers: new HttpHeaders({
@@ -86,8 +86,11 @@ export class ApiService {
             }
             req = this.http.get<T>(url, httpOptions);
         }
-        return firstValueFrom(req)
-            .then(response => response)
-            .catch((error: HttpErrorResponse) => this.handleError(error));
+        return req.pipe(
+            catchError((error: HttpErrorResponse) => {
+                this.handleError(error);
+                throw error;
+            })
+        )
     }
 }
