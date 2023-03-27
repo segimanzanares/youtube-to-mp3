@@ -1,6 +1,6 @@
 {
   "name": "youtube-to-mp3",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "main": "app/main.js",
   "build": {
     "appId": "Youtube2MP3"
@@ -58,7 +58,18 @@
   },
   "config": {
     "forge": {
-      "packagerConfig": {},
+      "packagerConfig": {
+        "ignore": [
+          "src",
+          "angular.json",
+          "tsconfig.*",
+          ".nvmrc",
+          ".gitignore",
+          ".editorconfig",
+          ".angular",
+          ".vscode"
+        ]
+      },
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
@@ -76,10 +87,12 @@
           "name": "@electron-forge/maker-deb",
           "config": {
             "options": {
+              "productName": "Youtube 2 MP3",
               "description": "App for downloading mp3 audio from Youtube videos.",
               "depends": [
                 "ffmpeg"
-              ]
+              ],
+              "icon": "./app/assets/images/icon.png"
             }
           }
         },
