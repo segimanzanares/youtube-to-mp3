@@ -1,4 +1,8 @@
-<mat-tab-group color="accent" animationDuration="0ms" mat-stretch-tabs="false" mat-align-tabs="center">
+<mat-tab-group color="accent"
+        animationDuration="0ms"
+        mat-stretch-tabs="false"
+        mat-align-tabs="center"
+        [(selectedIndex)]="selectedTabIndex">
     <mat-tab label="Búsqueda">
         <app-youtube-search></app-youtube-search>
     </mat-tab>

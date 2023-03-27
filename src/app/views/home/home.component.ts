@@ -9,6 +9,7 @@ import { YoutubeService } from './../../services/youtube.service';
 })
 export class HomeComponent {
     public pendingItems$: Observable<YoutubeItem[]>;
+    public selectedTabIndex: number = 0;
 
     constructor(
         private youtubeService: YoutubeService,
@@ -16,5 +17,12 @@ export class HomeComponent {
         this.pendingItems$ = this.youtubeService.downloadItems$.pipe(
             map(items => items.filter(item => !item.hasFinished()))
         );
+        this.pendingItems$.subscribe(items => {
+            if (this.youtubeService.hasDownloaded && items.length === 0) {
+                new Notification("Descarga de MP3", {
+                    body: "Todas las descargas fueron finalizadas",
+                }).onclick = () => this.selectedTabIndex = 1
+            }
+        });
     }
 }

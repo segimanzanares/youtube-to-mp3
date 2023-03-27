@@ -13,7 +13,7 @@ export class YoutubeService {
     private downloadItemsSubject: BehaviorSubject<YoutubeItem[]> = new BehaviorSubject<YoutubeItem[]>(this.downloadItems);
     public downloadItems$: Observable<YoutubeItem[]> = this.downloadItemsSubject.asObservable();
     public downloadFolder: string = '';
-    public loadingItems: boolean = false;
+    public hasDownloaded: boolean = false;
 
     constructor(
         private apiService: ApiService,
@@ -25,12 +25,10 @@ export class YoutubeService {
         searchType: SearchType = "search"
     ): Observable<Paginator<YoutubeItem>> {
         const baseUrl = 'https://www.googleapis.com/youtube/v3/';
-        this.loadingItems = true;
         return this.apiService.request<IYoutubeApiResponse>(
             'get', `${baseUrl}${searchType}`, params
         ).pipe(
             map(response => {
-                this.loadingItems = false;
                 return new Paginator(
                     response.items.map(i => YoutubeItem.fromJson(i, response.kind)),
                     response.pageInfo.totalResults,
@@ -54,6 +52,9 @@ export class YoutubeService {
     public updateDownloadInfo(index: number, info: DownloadInfo) {
         if (index < 0) {
             return;
+        }
+        if (!this.hasDownloaded) {
+            this.hasDownloaded = true;
         }
         this.downloadItems[index].downloadInfo = info;
         this.downloadItemsSubject.next(this.downloadItems);
