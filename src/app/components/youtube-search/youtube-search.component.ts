@@ -8,7 +8,7 @@ import { YoutubeService } from './../../services/youtube.service';
 import { IpcService } from './../../services/ipc.service';
 import { environment } from './../../../environments/environment';
 import { YoutubePreviewDialogComponent } from '../youtube-preview-dialog/youtube-preview-dialog.component';
-import { showAlertDialog } from './../../utils';
+import { showAlertDialog, showConfirmDialog } from './../../utils';
 import { AlertDialogComponent } from '../alert-dialog/alert-dialog.component';
 
 @Component({
@@ -19,7 +19,7 @@ import { AlertDialogComponent } from '../alert-dialog/alert-dialog.component';
 export class YoutubeSearchComponent {
 
     public form: UntypedFormGroup;
-    public searchResults?: Paginator<YoutubeItem>;
+    public searchResults!: Paginator<YoutubeItem>;
     public searchParams: IYoutubeSearchParams = {
         part: 'snippet',
         key: environment.googleApiKey,
@@ -136,5 +136,19 @@ export class YoutubeSearchComponent {
         else {
             this.youtubeService.addItemToDownloadList(item);
         }
+    }
+
+    public downloadAll() {
+        const self = this;
+        showConfirmDialog(this.dialog, {
+            disableClose: true,
+            data: {
+                title: "Descargar todo",
+                message: "¿Estás seguro de descargar todos los elementos de la lista?",
+                confirmButtonText: "Sí",
+                cancelButtonText: "Cancelar",
+                callback: () => self.searchResults?.data.forEach(item => self.download(item)),
+            }
+        })
     }
 }
