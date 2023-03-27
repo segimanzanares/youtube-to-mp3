@@ -8,7 +8,8 @@ function createWindow() {
     const mainWindow = new BrowserWindow({
         webPreferences: {
             preload: path.join(__dirname, '../app/preload.js')
-        }
+        },
+        icon: path.join(__dirname, 'assets/images/icon.png')
     })
     Menu.setApplicationMenu(null)
     mainWindow.loadFile(
