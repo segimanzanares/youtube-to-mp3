@@ -26,6 +26,7 @@ import { YoutubePreviewDialogComponent } from './components/youtube-preview-dial
 import { YoutubeSearchComponent } from './components/youtube-search/youtube-search.component';
 import { YoutubeDownloaderComponent } from './components/youtube-downloader/youtube-downloader.component';
 import { AlertDialogComponent } from './components/alert-dialog/alert-dialog.component';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
     declarations: [
@@ -35,6 +36,7 @@ import { AlertDialogComponent } from './components/alert-dialog/alert-dialog.com
         YoutubeSearchComponent,
         YoutubeDownloaderComponent,
         AlertDialogComponent,
+        ConfirmDialogComponent,
     ],
     imports: [
         BrowserModule,
