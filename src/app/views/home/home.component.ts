@@ -21,6 +21,7 @@ export class HomeComponent {
             if (this.youtubeService.hasDownloaded && items.length === 0) {
                 new Notification("Descarga de MP3", {
                     body: "Todas las descargas fueron finalizadas",
+                    icon: "assets/images/icon.png",
                 }).onclick = () => this.selectedTabIndex = 1
             }
         });
