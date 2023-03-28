@@ -83,4 +83,8 @@ export class YoutubeItem {
     public isDownloading(): boolean {
         return this.downloadInfo?.status === 'downloading';
     }
+
+    public hasError(): boolean {
+        return this.downloadInfo?.status === 'error';
+    }
 }
