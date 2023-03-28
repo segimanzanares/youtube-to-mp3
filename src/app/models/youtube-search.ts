@@ -80,6 +80,10 @@ export class YoutubeItem {
         return ['finished', 'error'].indexOf(this.downloadInfo?.status ?? '') !== -1;
     }
 
+    public hasFinishedWithoutErrors() {
+        return this.downloadInfo?.status === 'finished';
+    }
+
     public isDownloading(): boolean {
         return this.downloadInfo?.status === 'downloading';
     }

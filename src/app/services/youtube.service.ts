@@ -59,4 +59,18 @@ export class YoutubeService {
         this.downloadItems[index].downloadInfo = info;
         this.downloadItemsSubject.next(this.downloadItems);
     }
+
+    public clearDownloads() {
+        let items: YoutubeItem[] = [];
+        this.downloadItems.forEach(item => {
+            if (!item.hasFinishedWithoutErrors()) {
+                items.push(item);
+            }
+        });
+        this.downloadItems = [...items];
+        if (this.downloadItems.length === 0) {
+            this.hasDownloaded = false;
+        }
+        this.downloadItemsSubject.next(this.downloadItems);
+    }
 }

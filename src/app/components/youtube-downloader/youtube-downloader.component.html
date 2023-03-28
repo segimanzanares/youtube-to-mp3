@@ -10,12 +10,21 @@
                     </mat-form-field>
                 </div>
                 <div class="col-auto mt-1">
-                    <button type="submit" mat-fab extended color="primary" class="ms-1" (click)="selectFolder()">
+                    <button type="button" mat-fab extended color="primary" class="ms-1"
+                            (click)="selectFolder()">
                         <mat-icon>folder_open</mat-icon>
                         Seleccionar
                     </button>
                 </div>
             </div>
+        </div>
+        <div class="col-md-4 mt-1 d-flex justify-content-end mb-3 mb-md-0">
+            <button type="button" mat-fab extended color="accent" class="ms-2"
+                    (click)="clearDownloads()"
+                    *ngIf="dataSource.data.length > 0">
+                <mat-icon>playlist_remove</mat-icon>
+                Limpiar descargas
+            </button>
         </div>
     </div>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" >
