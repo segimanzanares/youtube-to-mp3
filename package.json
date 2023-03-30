@@ -1,6 +1,6 @@
 {
   "name": "youtube-to-mp3",
-  "version": "1.0.2",
+  "version": "1.0.6",
   "main": "app/main.js",
   "build": {
     "appId": "Youtube2MP3"
