@@ -15,6 +15,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatBadgeModule } from '@angular/material/badge';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -54,6 +55,7 @@ import { AlertDialogComponent } from './components/alert-dialog/alert-dialog.com
         MatTableModule,
         MatProgressBarModule,
         MatProgressSpinnerModule,
+        MatBadgeModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
