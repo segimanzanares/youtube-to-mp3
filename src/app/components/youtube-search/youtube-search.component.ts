@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
+import { Validators, FormControl, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { Paginator } from './../../models/paginator';
@@ -11,14 +11,18 @@ import { YoutubePreviewDialogComponent } from '../youtube-preview-dialog/youtube
 import { showAlertDialog, showConfirmDialog } from './../../utils';
 import { AlertDialogComponent } from '../alert-dialog/alert-dialog.component';
 
+interface SearchForm {
+    query: FormControl<string>;
+}
+
 @Component({
-  selector: 'app-youtube-search',
-  templateUrl: './youtube-search.component.html',
-  styleUrls: ['./youtube-search.component.scss']
+    selector: 'app-youtube-search',
+    templateUrl: './youtube-search.component.html',
+    styleUrls: ['./youtube-search.component.scss']
 })
 export class YoutubeSearchComponent {
 
-    public form: UntypedFormGroup;
+    public form: FormGroup<SearchForm>;
     public searchResults!: Paginator<YoutubeItem>;
     public searchParams: IYoutubeSearchParams = {
         part: 'snippet',
@@ -30,28 +34,30 @@ export class YoutubeSearchComponent {
     public searchType: SearchType = 'search';
 
     constructor(
-        private fb: UntypedFormBuilder,
         private youtubeService: YoutubeService,
         private ipcService: IpcService,
         public dialog: MatDialog,
     ) {
-        this.form = this.fb.group({
-            query: ['', Validators.required],
+        this.form = new FormGroup<SearchForm>({
+            query: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
         });
     }
 
     public searchVideos() {
-        const q: string = this.form.value.query;
+        if (!this.form.valid) {
+            return;
+        }
+        const q = this.form.value.query;
         this.searchType = 'search';
         this.searchParams.playlistId = void 0;
         this.searchParams.id = void 0;
-        if (q.startsWith('https://www.youtube.com/playlist?list=')) {
+        if (q && q.startsWith('https://www.youtube.com/playlist?list=')) {
             const params = new URLSearchParams(q.split('?')[1]);
             const playlistId = params.get('list') ?? '';
             this.searchType = 'playlistItems';
             this.searchParams.playlistId = playlistId;
         }
-        else if (q.startsWith('https://www.youtube.com/watch?v=') || q.startsWith('https://youtu.be/')) {
+        else if (q && (q.startsWith('https://www.youtube.com/watch?v=') || q.startsWith('https://youtu.be/'))) {
             let videoId: string;
             if (q.startsWith('https://youtu.be/')) {
                 videoId = q.replace('https://youtu.be/', '');
@@ -63,7 +69,7 @@ export class YoutubeSearchComponent {
             this.searchType = 'videos';
             this.searchParams.id = videoId;
         }
-        if (this.searchType === 'search') {
+        if (q && this.searchType === 'search') {
             this.searchParams.q = q;
         }
         const ref = this.displayLoadingSpinner();
