@@ -11,7 +11,24 @@ function createWindow() {
         },
         icon: path.join(__dirname, 'assets/images/icon.png')
     })
-    Menu.setApplicationMenu(null)
+    const menu = Menu.buildFromTemplate([
+        {
+            label: "Archivo",
+            submenu: [
+                {
+                    click: () => mainWindow.webContents.send('loadview', 'home'),
+                    label: 'Descargar audio',
+                },
+                {
+                    click: () => mainWindow.webContents.send('loadview', 'tageditor'),
+                    label: 'Editor de etiquetas',
+                },
+                { type: 'separator' },
+                { role: 'quit', label: "Salir" }
+            ]
+        }
+    ])
+    Menu.setApplicationMenu(menu)
     mainWindow.loadFile(
         path.join(__dirname, '../dist/youtube-to-mp3/index.html')
     )
