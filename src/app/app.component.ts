@@ -1,4 +1,3 @@
-import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IpcService } from './services/ipc.service';
@@ -10,10 +9,11 @@ import { IpcService } from './services/ipc.service';
 })
 export class AppComponent implements OnInit, OnDestroy {
     public viewSubscription?: Subscription;
+    public active: number = 0;
+    public displayTagEditorTab: boolean = true;
 
     constructor(
         private ipcService: IpcService,
-        private router: Router,
     ) { }
 
     ngOnInit(): void {
@@ -34,11 +34,18 @@ export class AppComponent implements OnInit, OnDestroy {
             .on('loadview')
             .subscribe(view => {
                 if (view === 'home') {
-                    this.router.navigate(['home'])
+                    this.active = 0;
                 }
                 else if (view === 'tageditor') {
-                    this.router.navigate(['tageditor'])
+                    this.displayTagEditorTab = true;
+                    this.active = 1;
                 }
             })
     }
+
+    public closeTagEditorTab(event: MouseEvent) {
+        this.displayTagEditorTab = false;
+		event.preventDefault();
+		event.stopImmediatePropagation();
+	}
 }

@@ -17,7 +17,6 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatBadgeModule } from '@angular/material/badge';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './views/home/home.component';
@@ -42,7 +41,6 @@ import { TagEditorComponent } from './views/tag-editor/tag-editor.component';
     ],
     imports: [
         BrowserModule,
-        AppRoutingModule,
         BrowserAnimationsModule,
         HttpClientModule,
         ReactiveFormsModule,

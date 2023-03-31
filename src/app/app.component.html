@@ -1,1 +1,20 @@
-<router-outlet></router-outlet>
+
+<mat-tab-group color="accent"
+        backgroundColor="primary"
+        animationDuration="0ms"
+        mat-stretch-tabs="false"
+        mat-align-tabs="left"
+        [(selectedIndex)]="active">
+    <mat-tab label="Descargar">
+        <app-home></app-home>
+    </mat-tab>
+    <mat-tab *ngIf="displayTagEditorTab">
+        <ng-template mat-tab-label>
+            <div>Editor de etiquetas</div>
+            <button style="color:black" mat-icon-button (click)="closeTagEditorTab($event)">
+                <mat-icon>close</mat-icon>
+            </button>
+        </ng-template>
+        <app-tag-editor></app-tag-editor>
+    </mat-tab>
+</mat-tab-group>
