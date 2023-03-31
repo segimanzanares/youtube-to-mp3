@@ -1,0 +1,10 @@
+::ng-deep {
+    .main-tabs {
+        > .mat-mdc-tab-header {
+            top: 0;
+            z-index: 1000;
+            position: sticky !important;
+            position: -webkit-sticky !important;
+        }
+    }
+}
