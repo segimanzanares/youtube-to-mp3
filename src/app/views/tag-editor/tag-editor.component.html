@@ -1,1 +1,20 @@
-<p>tag-editor works!</p>
+<div class="mx-3 my-5">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="row g-0">
+                <div class="col">
+                    <mat-form-field appearance="fill" class="w-100" color="accent">
+                        <mat-label>Seleccionar carpeta de descarga</mat-label>
+                        <input matInput readonly [value]="directoryPath">
+                    </mat-form-field>
+                </div>
+                <div class="col-auto mt-1">
+                    <button type="button" mat-fab extended color="primary" class="ms-1"
+                            (click)="openFolder()">
+                        <mat-icon>folder_open</mat-icon>
+                        Seleccionar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>

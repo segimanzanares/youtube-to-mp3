@@ -1,10 +1,12 @@
 import { Injectable, NgZone } from '@angular/core';
 import { IpcRenderer } from 'electron';
 import { Observable } from 'rxjs';
+import { AudioFile, IAudioFile } from '../models/audiofile';
 
 interface CustomIpcRenderer extends IpcRenderer {
     downloadAudio: (...params: string[]) => Promise<any>;
     selectFolder: () => Promise<string>;
+    readAudioTagsFromFolder: () => Promise<IAudioFile[]>;
     getFromStorage: (key: string) => Promise<string>;
 }
 
@@ -59,6 +61,14 @@ export class IpcService {
             return Promise.reject();
         }
         return await window.electronAPI.selectFolder();
+    }
+
+    public async readAudioTagsFromFolder(): Promise<AudioFile[]> {
+        if (!this.isElectron()) {
+            return Promise.reject();
+        }
+        return await window.electronAPI.readAudioTagsFromFolder()
+            .then(arr => arr.map(a => AudioFile.fromJson(a)));
     }
 
     public async getFromStorage(key: string): Promise<string> {
