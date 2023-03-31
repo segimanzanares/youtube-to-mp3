@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 interface CustomIpcRenderer extends IpcRenderer {
     downloadAudio: (...params: string[]) => Promise<any>;
-    openFolder: () => Promise<string>;
+    selectFolder: () => Promise<string>;
     getFromStorage: (key: string) => Promise<string>;
 }
 
@@ -54,11 +54,11 @@ export class IpcService {
         window.electronAPI.removeAllListeners(channel);
     }
 
-    public async openFolder(): Promise<string> {
+    public async selectFolder(): Promise<string> {
         if (!this.isElectron()) {
             return Promise.reject();
         }
-        return await window.electronAPI.openFolder();
+        return await window.electronAPI.selectFolder();
     }
 
     public async getFromStorage(key: string): Promise<string> {

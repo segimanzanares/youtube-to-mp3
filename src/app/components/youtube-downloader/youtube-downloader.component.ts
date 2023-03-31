@@ -76,7 +76,7 @@ export class YoutubeDownloaderComponent implements OnInit, OnDestroy {
     }
 
     public selectFolder() {
-        this.ipcService.openFolder().then(response => {
+        this.ipcService.selectFolder().then(response => {
             if (response) {
                 this.downloadFolder = response;
             }

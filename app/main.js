@@ -34,7 +34,7 @@ function createWindow() {
     )
 }
 
-async function handleFolderOpen() {
+async function handleSelectFolder() {
     const { canceled, filePaths } = await dialog.showOpenDialog({
         properties: ['openDirectory']
     })
@@ -53,7 +53,7 @@ function handleGetFromStorage(event, key) {
 
 app.whenReady().then(() => {
     ipcMain.handle('yt:downloadAudio', handleYoutubeDownloadAudio)
-    ipcMain.handle('dialog:openFolder', handleFolderOpen)
+    ipcMain.handle('dialog:selectFolder', handleSelectFolder)
     ipcMain.handle('storage:get', handleGetFromStorage)
     createWindow()
     app.on('activate', function () {

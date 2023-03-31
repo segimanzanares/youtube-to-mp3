@@ -132,7 +132,7 @@ export class YoutubeSearchComponent {
 
     public download(item: YoutubeItem) {
         if (!this.youtubeService.downloadFolder) {
-            this.ipcService.openFolder().then(response => {
+            this.ipcService.selectFolder().then(response => {
                 if (response) {
                     this.youtubeService.downloadFolder = response;
                     this.youtubeService.addItemToDownloadList(item);
