@@ -1,6 +1,6 @@
 export interface ID3Tags {
-    title: string;
-    artist: string;
+    title?: string;
+    artist?: string;
 }
 export interface IAudioFile {
     path: string;

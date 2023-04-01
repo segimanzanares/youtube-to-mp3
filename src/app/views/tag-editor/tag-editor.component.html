@@ -19,6 +19,14 @@
                 </div>
             </div>
         </div>
+        <mat-toolbar>
+            <button mat-button class="example-icon" aria-label="Extraer desde nombre de archivo">
+              <mat-icon>manage_search</mat-icon> Extraer desde nombre de archivo
+            </button>
+            <button mat-button class="example-icon" aria-label="Gurdar todo">
+              <mat-icon>save</mat-icon> Guardar todo
+            </button>
+        </mat-toolbar>
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" >
             <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef>Archivo</th>
