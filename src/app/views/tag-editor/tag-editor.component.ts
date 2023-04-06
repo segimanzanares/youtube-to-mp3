@@ -1,5 +1,6 @@
+import { showAudioTagsDialog } from './../../components/audio-tags-dialog/audio-tags-dialog.component';
 import { Component } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { AudioFile, IAudioFile } from './../../models/audiofile';
 import { IpcService } from './../../services/ipc.service';
@@ -38,7 +39,13 @@ export class TagEditorComponent {
     }
 
     public editTags(audio: AudioFile) {
-
+        const config: MatDialogConfig = {
+            width: '500px',
+            disableClose: true,
+        }
+        showAudioTagsDialog(this.dialog, audio, (audioFile) => {
+            audio = audioFile;
+        }, config);
     }
 
     public saveTags(audio: AudioFile) {
