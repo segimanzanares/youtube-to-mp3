@@ -2,7 +2,7 @@ const { app, BrowserWindow, Menu, ipcMain, dialog } = require('electron')
 const Store = require("electron-store");
 const path = require('path')
 const { handleYoutubeDownloadAudio } = require('./downloader')
-const { readDirectoryAudioTags, readTagsFromFileName } = require('./id3editor');
+const { readDirectoryAudioTags, readTagsFromFileName, saveAudioTags } = require('./id3editor');
 const store = new Store();
 
 function createWindow() {
@@ -70,6 +70,14 @@ async function handleReadAudioTagsFromFilename(event, filePaths) {
     }))
 }
 
+async function handleSaveAudioTags(event, audioFiles) {
+    if (!audioFiles) {
+        return false
+    }
+    audioFiles.forEach(f => saveAudioTags(f))
+    return true
+}
+
 function handleGetFromStorage(event, key) {
     const val = store.get(key) ?? null
     return val
@@ -80,6 +88,7 @@ app.whenReady().then(() => {
     ipcMain.handle('dialog:selectFolder', handleSelectFolder)
     ipcMain.handle('tags:readFolderAudioTags', handleReadFolderAudioTags)
     ipcMain.handle('tags:readAudioTagsFromFilename', handleReadAudioTagsFromFilename)
+    ipcMain.handle('tags:saveAudioTags', handleSaveAudioTags)
     ipcMain.handle('storage:get', handleGetFromStorage)
     createWindow()
     app.on('activate', function () {

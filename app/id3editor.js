@@ -44,6 +44,14 @@ const readTagsFromFileName = filePath => {
     return tags;
 }
 
+const saveAudioTags = audioFile => {
+    try {
+        NodeID3.update(audioFile.tags, audioFile.path)
+    } catch (err) {
+        NodeID3.write(audioFile.tags, audioFile.path)
+    }
+}
+
 const titleCase = (str) => {
     if (!str) {
         return str
@@ -70,4 +78,5 @@ if (process.argv.length > 2) {
 module.exports = {
     readDirectoryAudioTags,
     readTagsFromFileName,
+    saveAudioTags,
 }

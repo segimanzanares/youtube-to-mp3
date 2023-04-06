@@ -1,12 +1,14 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
+export type AlertDialogType = 'loading' | 'success' | 'info';
+
 export interface AlertDialogOptions {
     title?: string;
     message: string;
     acceptButtonText?: string;
     showAcceptButton?: boolean;
-    type?: 'loading' | 'success' | 'info';
+    type?: AlertDialogType;
     callback?(): void;
 }
 

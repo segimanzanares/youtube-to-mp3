@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { AudioFile, IAudioFile } from './../../models/audiofile';
 import { IpcService } from './../../services/ipc.service';
 import { showAlertDialog } from './../../utils';
+import { AlertDialogComponent, AlertDialogType } from './../../components/alert-dialog/alert-dialog.component';
 
 @Component({
     selector: 'app-tag-editor',
@@ -45,14 +46,7 @@ export class TagEditorComponent {
     }
 
     public extractFromFilename() {
-        const ref = showAlertDialog(this.dialog, {
-            data: {
-                message: "Analizando...",
-                showAcceptButton: false,
-                type: 'loading',
-            },
-            disableClose: true,
-        });
+        const ref = this.showAlert("Analizando...");
         this.ipcService.readAudioTagsFromFilename(this.dataSource.data)
             .then(response => {
                 this.saveEnabled = true;
@@ -62,6 +56,24 @@ export class TagEditorComponent {
     }
 
     public saveAll() {
+        const ref = this.showAlert("Guardando...");
+        this.ipcService.saveAudioTags(this.dataSource.data)
+            .then(() => this.showAlert("Las etiquetas se guardaron satisfactoriamente!", 'success', true))
+            .finally(() => ref.close());
+    }
 
+    private showAlert(
+        message: string,
+        type: AlertDialogType = 'loading',
+        showAcceptButton: boolean = false
+    ): MatDialogRef<AlertDialogComponent> {
+        return showAlertDialog(this.dialog, {
+            data: {
+                message: message,
+                showAcceptButton: showAcceptButton,
+                type: type,
+            },
+            disableClose: true,
+        });
     }
 }
