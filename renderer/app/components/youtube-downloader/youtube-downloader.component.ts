@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
-import { DownloadInfo, YoutubeItem } from './../../models/youtube-search';
-import { IpcService } from './../../services/ipc.service';
-import { YoutubeService } from './../../services/youtube.service';
+import { DownloadInfo, YoutubeItem } from '../../models/youtube-search';
+import { IpcService } from '../../services/ipc.service';
+import { YoutubeService } from '../../services/youtube.service';
 
 @Component({
     selector: 'app-youtube-downloader',

@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { IpcService } from './services/ipc.service';
 import { showAlertDialog } from './utils';
-import { environment } from './../environments/environment';
+import { environment } from '../environments/environment';
 
 @Component({
     selector: 'app-root',

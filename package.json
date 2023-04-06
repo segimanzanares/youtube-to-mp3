@@ -62,7 +62,7 @@
     "forge": {
       "packagerConfig": {
         "ignore": [
-          "src",
+          "renderer",
           "angular.json",
           "tsconfig.*",
           ".nvmrc",

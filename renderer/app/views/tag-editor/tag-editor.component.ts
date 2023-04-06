@@ -1,11 +1,11 @@
-import { showAudioTagsDialog } from './../../components/audio-tags-dialog/audio-tags-dialog.component';
+import { showAudioTagsDialog } from '../../components/audio-tags-dialog/audio-tags-dialog.component';
 import { Component } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { AudioFile, IAudioFile } from './../../models/audiofile';
-import { IpcService } from './../../services/ipc.service';
-import { showAlertDialog } from './../../utils';
-import { AlertDialogComponent, AlertDialogType } from './../../components/alert-dialog/alert-dialog.component';
+import { AudioFile, IAudioFile } from '../../models/audiofile';
+import { IpcService } from '../../services/ipc.service';
+import { showAlertDialog } from '../../utils';
+import { AlertDialogComponent, AlertDialogType } from '../../components/alert-dialog/alert-dialog.component';
 
 @Component({
     selector: 'app-tag-editor',

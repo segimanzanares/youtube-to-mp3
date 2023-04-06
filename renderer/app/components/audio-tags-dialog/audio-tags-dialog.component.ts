@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
-import { AudioFile } from './../../models/audiofile';
+import { AudioFile } from '../../models/audiofile';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 interface AudioTagsForm {

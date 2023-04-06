@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { Validators, FormControl, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
-import { Paginator } from './../../models/paginator';
-import { YoutubeItem, IYoutubeSearchParams, SearchType } from './../../models/youtube-search';
-import { YoutubeService } from './../../services/youtube.service';
-import { IpcService } from './../../services/ipc.service';
-import { environment } from './../../../environments/environment';
+import { Paginator } from '../../models/paginator';
+import { YoutubeItem, IYoutubeSearchParams, SearchType } from '../../models/youtube-search';
+import { YoutubeService } from '../../services/youtube.service';
+import { IpcService } from '../../services/ipc.service';
+import { environment } from '../../../environments/environment';
 import { YoutubePreviewDialogComponent } from '../youtube-preview-dialog/youtube-preview-dialog.component';
-import { showAlertDialog, showConfirmDialog } from './../../utils';
+import { showAlertDialog, showConfirmDialog } from '../../utils';
 import { AlertDialogComponent } from '../alert-dialog/alert-dialog.component';
 
 interface SearchForm {

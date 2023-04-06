@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { nl2br } from './../../utils';
+import { nl2br } from '../../utils';
 
 export type AlertDialogType = 'loading' | 'success' | 'info';
 
