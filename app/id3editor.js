@@ -20,8 +20,8 @@ const readDirectoryAudioTags = directoryPath => {
 const readId3Tags = filePath => {
     const id3Tags = NodeID3.read(filePath)
     return {
-        title: titleCase(id3Tags.title),
-        artist: titleCase(id3Tags.artist),
+        title: id3Tags.title,
+        artist: id3Tags.artist,
     }
 }
 
