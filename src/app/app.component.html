@@ -1,4 +1,3 @@
-
 <mat-tab-group class="main-tabs"
         color="accent"
         backgroundColor="primary"
@@ -6,12 +5,12 @@
         mat-stretch-tabs="false"
         mat-align-tabs="left"
         [(selectedIndex)]="active">
-    <mat-tab label="Descargar">
+    <mat-tab label="Descargar audio MP3">
         <app-home></app-home>
     </mat-tab>
     <mat-tab *ngIf="displayTagEditorTab">
         <ng-template mat-tab-label>
-            <div>Editor de etiquetas</div>
+            <div>Editor de etiquetas MP3</div>
             <button style="color:black" mat-icon-button (click)="closeTagEditorTab($event)">
                 <mat-icon>close</mat-icon>
             </button>

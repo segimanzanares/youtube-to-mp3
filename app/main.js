@@ -18,11 +18,11 @@ function createWindow() {
             submenu: [
                 {
                     click: () => mainWindow.webContents.send('loadview', 'home'),
-                    label: 'Descargar audio',
+                    label: 'Descargar audio MP3',
                 },
                 {
                     click: () => mainWindow.webContents.send('loadview', 'tageditor'),
-                    label: 'Editor de etiquetas',
+                    label: 'Editor de etiquetas MP3',
                 },
                 { type: 'separator' },
                 { role: 'quit', label: "Salir" }
