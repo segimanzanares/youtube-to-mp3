@@ -45,11 +45,11 @@ export class TagEditorComponent {
         }
         showAudioTagsDialog(this.dialog, audio, (audioFile) => {
             audio = audioFile;
+            const ref = this.showAlert("Guardando...");
+            this.ipcService.saveAudioTags([audio])
+                .then(() => this.showAlert("¡Las etiquetas se guardaron satisfactoriamente!", 'success', true))
+                .finally(() => ref.close());
         }, config);
-    }
-
-    public saveTags(audio: AudioFile) {
-
     }
 
     public extractFromFilename() {
@@ -65,7 +65,7 @@ export class TagEditorComponent {
     public saveAll() {
         const ref = this.showAlert("Guardando...");
         this.ipcService.saveAudioTags(this.dataSource.data)
-            .then(() => this.showAlert("Las etiquetas se guardaron satisfactoriamente!", 'success', true))
+            .then(() => this.showAlert("¡Las etiquetas se guardaron satisfactoriamente!", 'success', true))
             .finally(() => ref.close());
     }
 
