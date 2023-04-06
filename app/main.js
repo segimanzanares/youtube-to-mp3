@@ -30,7 +30,6 @@ function createWindow() {
         }
     ])
     Menu.setApplicationMenu(menu)
-    mainWindow.webContents.openDevTools()
     mainWindow.loadFile(
         path.join(__dirname, '../dist/youtube-to-mp3/index.html')
     )

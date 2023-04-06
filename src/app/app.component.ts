@@ -10,7 +10,7 @@ import { IpcService } from './services/ipc.service';
 export class AppComponent implements OnInit, OnDestroy {
     public viewSubscription?: Subscription;
     public active: number = 0;
-    public displayTagEditorTab: boolean = true;
+    public displayTagEditorTab: boolean = false;
 
     constructor(
         private ipcService: IpcService,
