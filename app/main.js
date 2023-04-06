@@ -2,7 +2,7 @@ const { app, BrowserWindow, Menu, ipcMain, dialog } = require('electron')
 const Store = require("electron-store");
 const path = require('path')
 const { handleYoutubeDownloadAudio } = require('./downloader')
-const { readTagsFromDirectory } = require('./id3editor');
+const { readDirectoryAudioTags } = require('./id3editor');
 const store = new Store();
 
 function createWindow() {
@@ -48,7 +48,7 @@ async function handleSelectFolder() {
     return folder
 }
 
-async function handleReadAudioTagsFromFolder() {
+async function handleReadFolderAudioTags() {
     const { canceled, filePaths } = await dialog.showOpenDialog({
         properties: ['openDirectory']
     })
@@ -56,7 +56,7 @@ async function handleReadAudioTagsFromFolder() {
     if (!folder) {
         return null
     }
-    return readTagsFromDirectory(folder)
+    return readDirectoryAudioTags(folder)
 }
 
 function handleGetFromStorage(event, key) {
@@ -67,7 +67,7 @@ function handleGetFromStorage(event, key) {
 app.whenReady().then(() => {
     ipcMain.handle('yt:downloadAudio', handleYoutubeDownloadAudio)
     ipcMain.handle('dialog:selectFolder', handleSelectFolder)
-    ipcMain.handle('tags:readAudioTagsFromFolder', handleReadAudioTagsFromFolder)
+    ipcMain.handle('tags:readFolderAudioTags', handleReadFolderAudioTags)
     ipcMain.handle('storage:get', handleGetFromStorage)
     createWindow()
     app.on('activate', function () {

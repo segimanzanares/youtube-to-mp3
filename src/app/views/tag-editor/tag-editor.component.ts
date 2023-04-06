@@ -23,10 +23,9 @@ export class TagEditorComponent {
     }
 
     public openFolder() {
-        this.ipcService.readAudioTagsFromFolder().then(response => {
+        this.ipcService.readFolderAudioTags().then(response => {
             this.dataSource.data = [];
             if (response && response.length > 0) {
-                console.log(JSON.stringify(response))
                 this.directoryPath = response[0].path.substring(0, response[0].path.lastIndexOf('/'))
                 this.dataSource.data = response;
             }

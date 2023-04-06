@@ -2,7 +2,7 @@ const NodeID3 = require('node-id3')
 const fs = require('fs')
 const path = require('path');
 
-const readTagsFromDirectory = directoryPath => {
+const readDirectoryAudioTags = directoryPath => {
     let filesTags = [];
     fs.readdirSync(directoryPath).forEach(file => {
         if (!file.endsWith('.mp3')) {
@@ -39,5 +39,5 @@ if (process.argv.length > 2) {
 }
 
 module.exports = {
-    readTagsFromDirectory,
+    readDirectoryAudioTags,
 }

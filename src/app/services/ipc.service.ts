@@ -6,7 +6,7 @@ import { AudioFile, IAudioFile } from '../models/audiofile';
 interface CustomIpcRenderer extends IpcRenderer {
     downloadAudio: (...params: string[]) => Promise<any>;
     selectFolder: () => Promise<string>;
-    readAudioTagsFromFolder: () => Promise<IAudioFile[]>;
+    readFolderAudioTags: () => Promise<IAudioFile[]>;
     getFromStorage: (key: string) => Promise<string>;
 }
 
@@ -63,11 +63,11 @@ export class IpcService {
         return await window.electronAPI.selectFolder();
     }
 
-    public async readAudioTagsFromFolder(): Promise<AudioFile[]> {
+    public async readFolderAudioTags(): Promise<AudioFile[]> {
         if (!this.isElectron()) {
             return Promise.reject();
         }
-        return await window.electronAPI.readAudioTagsFromFolder()
+        return await window.electronAPI.readFolderAudioTags()
             .then(arr => arr.map(a => AudioFile.fromJson(a)));
     }
 
