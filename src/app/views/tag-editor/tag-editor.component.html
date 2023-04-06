@@ -23,6 +23,7 @@
             <button mat-button
                     matTooltip="Extraer artista y título desde el nombre de archivo (Formato: Artista - Título.mp3)"
                     aria-label="Extraer desde nombre de archivo"
+                    [disabled]="!(dataSource && dataSource.data.length > 0)"
                     (click)="extractFromFilename()">
               <mat-icon>manage_search</mat-icon> Extraer desde nombre de archivo
             </button>
