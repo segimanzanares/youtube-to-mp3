@@ -13,10 +13,9 @@
         <p class="msg align-self-center ms-3" *ngIf="data['type']"
                [class.ml-3]="data['type'] && data['type'] === 'loading'"
                [class.ml-4]="data['type'] && data['type'] !== 'loading'"
-               [innerHtml]="data['message']">
+               [innerHtml]="message">
         </p>
     </div>
-    <div class="clearfix"></div>
 </div>
 <div mat-dialog-actions *ngIf="data['showAcceptButton']">
     <button mat-button mat-dialog-close="OK" cdkFocusInitial>Aceptar</button>

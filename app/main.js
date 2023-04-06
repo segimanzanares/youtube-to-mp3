@@ -27,6 +27,15 @@ function createWindow() {
                 { type: 'separator' },
                 { role: 'quit', label: "Salir" }
             ]
+        },
+        {
+            label: "Ayuda",
+            submenu: [
+                {
+                    click: () => mainWindow.webContents.send('loadview', 'about'),
+                    label: 'Acerca de',
+                },
+            ]
         }
     ])
     Menu.setApplicationMenu(menu)
