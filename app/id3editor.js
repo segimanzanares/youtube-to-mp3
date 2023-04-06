@@ -25,6 +25,25 @@ const readId3Tags = filePath => {
     }
 }
 
+const readTagsFromFileName = filePath => {
+    const id3Tags = NodeID3.read(filePath)
+    const name = path.basename(filePath, '.mp3')
+    const index = name.lastIndexOf(' - ')
+    let tags = {
+        title: titleCase(id3Tags.title),
+        artist: titleCase(id3Tags.artist),
+    }
+    if (index !== -1 && index < name.length - 3) {
+        tags.artist = titleCase(name.substring(0, index).trim())
+        tags.artist = tags.artist.replace(/(feat\.|ft\.|,)/ig, '|').split('|').map(a => a.trim()).join(' / ')
+        tags.title = titleCase(name.substring(index + 3).trim())
+    }
+    else {
+        tags.title = titleCase(name)
+    }
+    return tags;
+}
+
 const titleCase = (str) => {
     if (!str) {
         return str
@@ -35,9 +54,20 @@ const titleCase = (str) => {
 }
 
 if (process.argv.length > 2) {
-    readTagsFromDirectory(process.argv[2])
+    const directoryPath = process.argv[2]
+    fs.readdirSync(directoryPath).forEach(file => {
+        if (!file.endsWith('.mp3')) {
+            return
+        }
+        console.log({
+            path: path.join(directoryPath, file),
+            name: path.basename(file),
+            tags: readTagsFromFileName(path.join(directoryPath, file))
+        })
+    })
 }
 
 module.exports = {
     readDirectoryAudioTags,
+    readTagsFromFileName,
 }

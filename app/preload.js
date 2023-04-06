@@ -7,5 +7,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
     downloadAudio: (...args) => ipcRenderer.invoke('yt:downloadAudio', ...args),
     selectFolder: () => ipcRenderer.invoke('dialog:selectFolder'),
     readFolderAudioTags: () => ipcRenderer.invoke('tags:readFolderAudioTags'),
+    readAudioTagsFromFilename: (filePaths) => ipcRenderer.invoke('tags:readAudioTagsFromFilename', filePaths),
     getFromStorage: (key) => ipcRenderer.invoke('storage:get', key),
 })

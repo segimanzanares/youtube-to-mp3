@@ -20,10 +20,17 @@
             </div>
         </div>
         <mat-toolbar>
-            <button mat-button class="example-icon" aria-label="Extraer desde nombre de archivo">
+            <button mat-button
+                    matTooltip="Extraer artista y título desde el nombre de archivo"
+                    aria-label="Extraer desde nombre de archivo"
+                    (click)="extractFromFilename()">
               <mat-icon>manage_search</mat-icon> Extraer desde nombre de archivo
             </button>
-            <button mat-button class="example-icon" aria-label="Gurdar todo">
+            <button mat-button
+                    matTooltip="Guardar todos los cambios realizados"
+                    aria-label="Gurdar todo"
+                    [disabled]="!saveEnabled"
+                    (click)="saveAll()">
               <mat-icon>save</mat-icon> Guardar todo
             </button>
         </mat-toolbar>

@@ -7,6 +7,7 @@ interface CustomIpcRenderer extends IpcRenderer {
     downloadAudio: (...params: string[]) => Promise<any>;
     selectFolder: () => Promise<string>;
     readFolderAudioTags: () => Promise<IAudioFile[]>;
+    readAudioTagsFromFilename:(filePaths: string[]) => Promise<IAudioFile[]>;
     getFromStorage: (key: string) => Promise<string>;
 }
 
@@ -68,6 +69,14 @@ export class IpcService {
             return Promise.reject();
         }
         return await window.electronAPI.readFolderAudioTags()
+            .then(arr => arr.map(a => AudioFile.fromJson(a)));
+    }
+
+    public async readAudioTagsFromFilename(files: AudioFile[]): Promise<AudioFile[]> {
+        if (!this.isElectron()) {
+            return Promise.reject();
+        }
+        return await window.electronAPI.readAudioTagsFromFilename(files.map(f => f.path))
             .then(arr => arr.map(a => AudioFile.fromJson(a)));
     }
 

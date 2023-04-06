@@ -4,7 +4,7 @@ export interface ID3Tags {
 }
 export interface IAudioFile {
     path: string;
-    name: string;
+    name?: string;
     tags: ID3Tags;
 }
 
@@ -18,7 +18,7 @@ export class AudioFile {
     public static fromJson(data: IAudioFile): AudioFile {
         return new AudioFile(
             data.path,
-            data.name,
+            data.name ?? data.path.substring(data.path.lastIndexOf('/') + 1),
             data.tags,
         );
     }
