@@ -6,7 +6,7 @@
     "appId": "Youtube2MP3"
   },
   "scripts": {
-    "electron": "electron .",
+    "electron": "cd renderer && ng build && cd .. && electron .",
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make"
