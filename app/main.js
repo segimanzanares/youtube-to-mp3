@@ -8,7 +8,7 @@ const store = new Store();
 function createWindow() {
     const mainWindow = new BrowserWindow({
         webPreferences: {
-            preload: path.join(__dirname, '../app/preload.js')
+            preload: path.join(__dirname, 'preload.js')
         },
         icon: path.join(__dirname, 'assets/images/icon.png')
     })
@@ -40,7 +40,7 @@ function createWindow() {
     ])
     Menu.setApplicationMenu(menu)
     mainWindow.loadFile(
-        path.join(__dirname, '../dist/youtube-to-mp3/index.html')
+        path.join(__dirname, '../dist/index.html')
     )
 }
 

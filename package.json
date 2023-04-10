@@ -1,74 +1,40 @@
 {
   "name": "youtube-to-mp3",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "main": "app/main.js",
   "build": {
     "appId": "Youtube2MP3"
   },
   "scripts": {
-    "ng": "ng",
-    "ng-serve": "ng serve",
-    "ng-build": "ng build",
-    "ng-watch": "ng build --watch --configuration development",
-    "ng-test": "ng test",
-    "electron": "ng build && electron .",
+    "electron": "electron .",
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make"
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^15.2.0",
-    "@angular/cdk": "^15.2.3",
-    "@angular/common": "^15.2.0",
-    "@angular/compiler": "^15.2.0",
-    "@angular/core": "^15.2.0",
-    "@angular/forms": "^15.2.0",
-    "@angular/material": "^15.2.3",
-    "@angular/platform-browser": "^15.2.0",
-    "@angular/platform-browser-dynamic": "^15.2.0",
-    "@angular/router": "^15.2.0",
     "electron-store": "^8.1.0",
     "fluent-ffmpeg": "^2.1.2",
     "node-id3": "^0.2.6",
     "queue": "^6.0.2",
-    "rxjs": "~7.8.0",
     "sanitize-filename": "^1.6.3",
-    "tslib": "^2.3.0",
-    "ytdl-core": "^4.11.2",
-    "zone.js": "~0.12.0"
+    "ytdl-core": "github:fent/node-ytdl-core#pull/1203/head"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^15.2.4",
-    "@angular/cli": "~15.2.4",
-    "@angular/compiler-cli": "^15.2.0",
-    "@electron-forge/cli": "^6.0.5",
-    "@electron-forge/maker-deb": "^6.0.5",
-    "@electron-forge/maker-squirrel": "^6.0.5",
-    "@electron-forge/maker-zip": "^6.0.5",
-    "@ngx-env/builder": "^15.2.0",
-    "@types/jasmine": "~4.3.0",
-    "bootstrap": "^5.2.3",
-    "electron": "^23.2.0",
-    "jasmine-core": "~4.5.0",
-    "karma": "~6.4.0",
-    "karma-chrome-launcher": "~3.1.0",
-    "karma-coverage": "~2.2.0",
-    "karma-jasmine": "~5.1.0",
-    "karma-jasmine-html-reporter": "~2.0.0",
-    "typescript": "~4.9.4"
+    "@electron-forge/cli": "^6.1.1",
+    "@electron-forge/maker-deb": "^6.1.1",
+    "@electron-forge/maker-squirrel": "^6.1.1",
+    "@electron-forge/maker-zip": "^6.1.1",
+    "electron": "^24.0.0"
   },
   "config": {
     "forge": {
       "packagerConfig": {
         "ignore": [
           "renderer",
-          "angular.json",
-          "tsconfig.*",
           ".nvmrc",
           ".gitignore",
           ".editorconfig",
-          ".angular",
           ".vscode"
         ]
       },

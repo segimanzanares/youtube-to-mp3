@@ -28,7 +28,7 @@ const ffmpegSync = (event, info) => {
                 event.sender.send('audioprogress', JSON.stringify(info))
                 resolve()
             })
-            .on('error',(err)=>{
+            .on('error', (err) => {
                 return reject(new Error(err))
             })
     })
