@@ -56,15 +56,19 @@ export class AppComponent implements OnInit, OnDestroy {
             return;
         }
         this.aboutDisplayed = true;
-        showAlertDialog(this.dialog, {
-            data: {
-                title: "Acerca de",
-                message: "Youtube 2 MP3\nversion " + environment.version,
-                type: 'info',
-                callback: () => this.aboutDisplayed = false,
-            },
-            disableClose: true,
-        });
+        this.ipcService.getAppVersion()
+            .then(response => {
+                showAlertDialog(this.dialog, {
+                    data: {
+                        title: "Acerca de",
+                        message: "Youtube 2 MP3\nversion " + response,
+                        type: 'info',
+                        callback: () => this.aboutDisplayed = false,
+                    },
+                    disableClose: true,
+                });
+            })
+            .catch(() => { });
     }
 
     public closeTagEditorTab(event: MouseEvent) {

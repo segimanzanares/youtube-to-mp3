@@ -10,6 +10,7 @@ interface CustomIpcRenderer extends IpcRenderer {
     readAudioTagsFromFilename: (filePaths: string[]) => Promise<IAudioFile[]>;
     saveAudioTags: (audioFiles: IAudioFile[]) => Promise<boolean>;
     getFromStorage: (key: string) => Promise<string>;
+    getAppVersion: () => Promise<string>;
 }
 
 declare global {
@@ -93,5 +94,12 @@ export class IpcService {
             return Promise.reject();
         }
         return await window.electronAPI.getFromStorage(key);
+    }
+
+    public async getAppVersion(): Promise<string> {
+        if (!this.isElectron()) {
+            return Promise.reject();
+        }
+        return await window.electronAPI.getAppVersion();
     }
 }

@@ -91,6 +91,10 @@ function handleGetFromStorage(event, key) {
     return val
 }
 
+function handleGetAppVersion() {
+    return app.getVersion()
+}
+
 app.whenReady().then(() => {
     ipcMain.handle('yt:downloadAudio', handleYoutubeDownloadAudio)
     ipcMain.handle('dialog:selectFolder', handleSelectFolder)
@@ -98,6 +102,7 @@ app.whenReady().then(() => {
     ipcMain.handle('tags:readAudioTagsFromFilename', handleReadAudioTagsFromFilename)
     ipcMain.handle('tags:saveAudioTags', handleSaveAudioTags)
     ipcMain.handle('storage:get', handleGetFromStorage)
+    ipcMain.handle('app:getVersion', handleGetAppVersion)
     createWindow()
     app.on('activate', function () {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
