@@ -34,11 +34,11 @@ const ffmpegSync = (event, info) => {
     })
  }
 
-const handleYoutubeDownloadAudio = async (event, ...args) => {
+const handleYoutubeDownloadAudio = async (event, videoId, title) => {
     const starttime = Date.now();
     let info = {
-        videoId: args[0],
-        title: args[1],
+        videoId: videoId,
+        title: title,
         startedAt: starttime,
         finishedAt: null,
         status: 'waiting',

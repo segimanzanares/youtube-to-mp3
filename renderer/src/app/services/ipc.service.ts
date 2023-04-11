@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { AudioFile, IAudioFile } from '../models/audiofile';
 
 interface CustomIpcRenderer extends IpcRenderer {
-    downloadAudio: (...params: string[]) => Promise<any>;
+    downloadAudio: (videoId: string, title: string) => Promise<any>;
     selectFolder: () => Promise<string>;
     readFolderAudioTags: () => Promise<IAudioFile[]>;
     readAudioTagsFromFilename: (filePaths: string[]) => Promise<IAudioFile[]>;

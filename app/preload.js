@@ -4,7 +4,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     on: (channel, listener) => ipcRenderer.on(channel, listener),
     send: (channel, ...args) => ipcRenderer.send(channel, ...args),
     removeAllListeners: (channel) => ipcRenderer.removeAllListeners(channel),
-    downloadAudio: (...args) => ipcRenderer.invoke('yt:downloadAudio', ...args),
+    downloadAudio: (videoId, title) => ipcRenderer.invoke('yt:downloadAudio', videoId, title),
     selectFolder: () => ipcRenderer.invoke('dialog:selectFolder'),
     readFolderAudioTags: () => ipcRenderer.invoke('tags:readFolderAudioTags'),
     readAudioTagsFromFilename: (filePaths) => ipcRenderer.invoke('tags:readAudioTagsFromFilename', filePaths),
