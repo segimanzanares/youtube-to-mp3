@@ -1,6 +1,9 @@
 export interface ID3Tags {
     title?: string;
     artist?: string;
+    album?: string;
+    genre?: string;
+    year?: number;
 }
 export interface IAudioFile {
     path: string;

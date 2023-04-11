@@ -1,11 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
-import { AudioFile } from '../../models/audiofile';
+import { AudioFile, ID3Tags } from './../../models/audiofile';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-interface AudioTagsForm {
-    title: FormControl<string>;
-    artist: FormControl<string>;
+type AudioTagsForm = {
+    [Property in keyof ID3Tags]-?: FormControl<ID3Tags[Property] | null>;
 }
 
 @Component({
@@ -16,6 +15,7 @@ interface AudioTagsForm {
 export class AudioTagsDialogComponent implements OnInit {
     public audioFile!: AudioFile;
     public form: FormGroup<AudioTagsForm>;
+    public maxYear: number;
 
     constructor(
         public dialogRef: MatDialogRef<AudioTagsDialogComponent>,
@@ -25,7 +25,11 @@ export class AudioTagsDialogComponent implements OnInit {
         this.form = new FormGroup<AudioTagsForm>({
             title: new FormControl(this.audioFile.tags.title ?? '', { nonNullable: true, validators: [Validators.required] }),
             artist: new FormControl(this.audioFile.tags.artist ?? '', { nonNullable: true, validators: [Validators.required] }),
+            album: new FormControl(this.audioFile.tags.album ?? '', { nonNullable: false }),
+            genre: new FormControl(this.audioFile.tags.genre ?? '', { nonNullable: false }),
+            year: new FormControl(this.audioFile.tags.year ?? null, { nonNullable: false }),
         });
+        this.maxYear = new Date().getFullYear();
     }
 
     ngOnInit(): void { }
@@ -34,8 +38,11 @@ export class AudioTagsDialogComponent implements OnInit {
         if (!this.form.valid) {
             return;
         }
-        this.audioFile.tags.title = this.form.value.title;
-        this.audioFile.tags.artist = this.form.value.artist;
+        this.audioFile.tags.title = this.form.value.title ?? void 0;
+        this.audioFile.tags.artist = this.form.value.artist ?? void 0;
+        this.audioFile.tags.album = this.form.value.album ?? void 0;
+        this.audioFile.tags.genre = this.form.value.genre ?? void 0;
+        this.audioFile.tags.year = this.form.value.year ?? void 0;
         this.dialogRef.close(this.audioFile);
     }
 

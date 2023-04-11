@@ -2,7 +2,7 @@ import { showAudioTagsDialog } from '../../components/audio-tags-dialog/audio-ta
 import { Component } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { AudioFile, IAudioFile } from '../../models/audiofile';
+import { AudioFile } from '../../models/audiofile';
 import { IpcService } from '../../services/ipc.service';
 import { showAlertDialog } from '../../utils';
 import { AlertDialogComponent, AlertDialogType } from '../../components/alert-dialog/alert-dialog.component';

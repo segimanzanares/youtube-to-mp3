@@ -16,6 +16,21 @@
                 Completa este campo
             </mat-error>
         </mat-form-field>
+        <mat-form-field appearance="fill" class="w-100" color="accent">
+            <mat-label>Album</mat-label>
+            <input matInput formControlName="album">
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="w-100" color="accent">
+            <mat-label>Género</mat-label>
+            <input matInput formControlName="genre">
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="w-100" color="accent">
+            <mat-label>Año</mat-label>
+            <input type="number" [min]="1900" [max]="maxYear" matInput formControlName="year">
+            <mat-error *ngIf="form.get('year')?.invalid">
+                Ingresa un año válido
+            </mat-error>
+        </mat-form-field>
     </form>
 </div>
 <div mat-dialog-actions>
