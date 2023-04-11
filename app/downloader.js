@@ -4,12 +4,17 @@ const sanitize = require("sanitize-filename")
 const Store = require("electron-store")
 const queue = require('queue')
 
-let q = queue({ results: [] });
-q.concurrency = 1;
-const store = new Store();
+let q = queue({ results: [] })
+q.concurrency = 1
+const store = new Store()
+let downloads = []
 
 const ffmpegSync = (event, info) => {
     return new Promise((resolve, reject) => {
+        const index = downloads.findIndex(d => d.videoId === info.videoId)
+        if (index !== -1 && downloads[index].status === 'canceled') {
+            return resolve()
+        }
         info.status = 'downloading'
         info.details = "Descargando"
         event.sender.send('audioprogress', JSON.stringify(info))
@@ -44,6 +49,7 @@ const handleYoutubeDownloadAudio = async (event, videoId, title) => {
         status: 'waiting',
         details: "Esperando..."
     }
+    downloads.push(info)
     event.sender.send('audioprogress', JSON.stringify(info))
     // Iniciar job
     async function job(cb) {
@@ -60,8 +66,21 @@ const handleYoutubeDownloadAudio = async (event, videoId, title) => {
     job.timeout = null
     q.push(job)
     q.start()
+    return info
+}
+
+const handleCancelDownload = (event, videoId) => {
+    const index = downloads.findIndex(d => d.videoId === videoId)
+    if (index !== -1 && downloads[index].status === 'waiting') {
+        downloads[index].status = 'canceled'
+        downloads[index].details = 'Cancelado'
+        event.sender.send('audioprogress', JSON.stringify(downloads[index]))
+        return true
+    }
+    return false
 }
 
 module.exports = {
     handleYoutubeDownloadAudio,
+    handleCancelDownload,
 }

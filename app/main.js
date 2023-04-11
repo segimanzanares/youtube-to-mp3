@@ -1,7 +1,7 @@
 const { app, BrowserWindow, Menu, ipcMain, dialog } = require('electron')
 const Store = require("electron-store");
 const path = require('path')
-const { handleYoutubeDownloadAudio } = require('./downloader')
+const { handleYoutubeDownloadAudio, handleCancelDownload } = require('./downloader')
 const { readDirectoryAudioTags, readTagsFromFileName, saveAudioTags } = require('./id3editor');
 const store = new Store();
 
@@ -97,6 +97,7 @@ function handleGetAppVersion() {
 
 app.whenReady().then(() => {
     ipcMain.handle('yt:downloadAudio', handleYoutubeDownloadAudio)
+    ipcMain.handle('yt:cancelDownload', handleCancelDownload)
     ipcMain.handle('dialog:selectFolder', handleSelectFolder)
     ipcMain.handle('tags:readFolderAudioTags', handleReadFolderAudioTags)
     ipcMain.handle('tags:readAudioTagsFromFilename', handleReadAudioTagsFromFilename)
