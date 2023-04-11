@@ -87,6 +87,10 @@ export class YoutubeDownloaderComponent implements OnInit, OnDestroy {
         this.ipcService.downloadAudio(item.videoId, item.snippet.title);
     }
 
+    public cancelDownload(item: YoutubeItem) {
+        this.ipcService.cancelDownload(item.videoId);
+    }
+
     public clearDownloads() {
         this.youtubeService.clearDownloads();
     }

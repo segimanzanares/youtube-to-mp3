@@ -44,16 +44,23 @@
                         <mat-progress-bar mode="indeterminate" color="warn"
                             *ngIf="element.isDownloading()"></mat-progress-bar>
                         <span class="badge rounded-pill text-bg-primary"
-                                [class.text-bg-primary]="element.downloadInfo?.status === 'waiting'"
-                                [class.text-bg-danger]="element.downloadInfo?.status === 'error'"
-                                [class.text-bg-success]="element.downloadInfo?.status === 'finished'"
+                                [class.text-bg-primary]="element.isWaiting()"
+                                [class.text-bg-danger]="element.hasError() || element.isCanceled()"
+                                [class.text-bg-success]="element.hasFinished()"
                                 *ngIf="!element.isDownloading()">
                             {{ element.downloadInfo?.details }}
                         </span>
                     </div>
-                    <div class="col-auto ms-2" *ngIf="element.hasError()">
-                        <button type="button" mat-icon-button color="accent" (click)="retryDownload(element)">
+                    <div class="col-auto ms-2" *ngIf="element.hasError() || element.isWaiting()">
+                        <button type="button" mat-icon-button color="accent"
+                                matTooltip="Reintentar descarga"
+                                (click)="retryDownload(element)" *ngIf="element.hasError()">
                             <mat-icon>replay</mat-icon>
+                        </button>
+                        <button type="button" mat-icon-button color="warn"
+                                matTooltip="Cancelar descarga"
+                                (click)="cancelDownload(element)" *ngIf="element.isWaiting()">
+                            <mat-icon>cancel</mat-icon>
                         </button>
                     </div>
                 </div>

@@ -2,9 +2,11 @@ import { Injectable, NgZone } from '@angular/core';
 import { IpcRenderer } from 'electron';
 import { Observable } from 'rxjs';
 import { AudioFile, IAudioFile } from '../models/audiofile';
+import { DownloadInfo } from '../models/youtube-search';
 
 interface CustomIpcRenderer extends IpcRenderer {
-    downloadAudio: (videoId: string, title: string) => Promise<any>;
+    downloadAudio: (videoId: string, title: string) => Promise<DownloadInfo>;
+    cancelDownload: (videoId: string) => Promise<boolean>;
     selectFolder: () => Promise<string>;
     readFolderAudioTags: () => Promise<IAudioFile[]>;
     readAudioTagsFromFilename: (filePaths: string[]) => Promise<IAudioFile[]>;
@@ -45,11 +47,18 @@ export class IpcService {
         window.electronAPI.send(channel, ...args);
     }
 
-    public async downloadAudio(videoId: string, title: string): Promise<string> {
+    public async downloadAudio(videoId: string, title: string): Promise<DownloadInfo> {
         if (!this.isElectron()) {
             return Promise.reject();
         }
         return await window.electronAPI.downloadAudio(videoId, title);
+    }
+
+    public async cancelDownload(videoId: string): Promise<boolean> {
+        if (!this.isElectron()) {
+            return Promise.reject();
+        }
+        return await window.electronAPI.cancelDownload(videoId);
     }
 
     public removeAllListeners(channel: string): void {

@@ -16,7 +16,7 @@ export class HomeComponent {
         private youtubeService: YoutubeService,
     ) {
         this.pendingItems$ = this.youtubeService.downloadItems$.pipe(
-            map(items => items.filter(item => !item.hasFinished()))
+            map(items => items.filter(item => !item.isStopped()))
         );
         this.pendingItems$.subscribe(items => {
             if (this.youtubeService.hasDownloaded && items.length === 0) {

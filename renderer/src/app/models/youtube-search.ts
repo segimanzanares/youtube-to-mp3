@@ -37,7 +37,7 @@ export interface DownloadInfo {
     videoId: string;
     title: string;
     startedAt: number;
-    finishedAt: number;
+    finishedAt?: number;
     status: string;
     details: string;
 }
@@ -76,11 +76,11 @@ export class YoutubeItem {
         );
     }
 
-    public hasFinished(): boolean {
-        return ['finished', 'error'].indexOf(this.downloadInfo?.status ?? '') !== -1;
+    public isStopped(): boolean {
+        return ['finished', 'error', 'canceled'].indexOf(this.downloadInfo?.status ?? '') !== -1;
     }
 
-    public hasFinishedWithoutErrors() {
+    public hasFinished() {
         return this.downloadInfo?.status === 'finished';
     }
 
@@ -90,5 +90,13 @@ export class YoutubeItem {
 
     public hasError(): boolean {
         return this.downloadInfo?.status === 'error';
+    }
+
+    public isWaiting(): boolean {
+        return this.downloadInfo?.status === 'waiting';
+    }
+
+    public isCanceled(): boolean {
+        return this.downloadInfo?.status === 'canceled';
     }
 }

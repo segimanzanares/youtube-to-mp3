@@ -63,7 +63,7 @@ export class YoutubeService {
     public clearDownloads() {
         let items: YoutubeItem[] = [];
         this.downloadItems.forEach(item => {
-            if (!item.hasFinishedWithoutErrors()) {
+            if (!item.hasFinished()) {
                 items.push(item);
             }
         });
