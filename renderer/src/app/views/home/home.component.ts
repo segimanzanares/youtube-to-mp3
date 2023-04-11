@@ -19,7 +19,7 @@ export class HomeComponent {
             map(items => items.filter(item => !item.isStopped()))
         );
         this.pendingItems$.subscribe(items => {
-            if (this.youtubeService.hasDownloaded && items.length === 0) {
+            if (this.youtubeService.isDownloading && items.length === 0) {
                 new Notification("Descarga de MP3", {
                     body: "Todas las descargas fueron finalizadas",
                     icon: "assets/images/icon.png",

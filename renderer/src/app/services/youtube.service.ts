@@ -13,7 +13,7 @@ export class YoutubeService {
     private downloadItemsSubject: BehaviorSubject<YoutubeItem[]> = new BehaviorSubject<YoutubeItem[]>(this.downloadItems);
     public downloadItems$: Observable<YoutubeItem[]> = this.downloadItemsSubject.asObservable();
     public downloadFolder: string = '';
-    public hasDownloaded: boolean = false;
+    public isDownloading: boolean = false;
 
     constructor(
         private apiService: ApiService,
@@ -53,8 +53,8 @@ export class YoutubeService {
         if (index < 0) {
             return;
         }
-        if (!this.hasDownloaded) {
-            this.hasDownloaded = true;
+        if (!this.isDownloading) {
+            this.isDownloading = true;
         }
         this.downloadItems[index].downloadInfo = info;
         this.downloadItemsSubject.next(this.downloadItems);
@@ -63,13 +63,13 @@ export class YoutubeService {
     public clearDownloads() {
         let items: YoutubeItem[] = [];
         this.downloadItems.forEach(item => {
-            if (!item.hasFinished()) {
+            if (!(item.hasFinished() || item.isCanceled())) {
                 items.push(item);
             }
         });
         this.downloadItems = [...items];
         if (this.downloadItems.length === 0) {
-            this.hasDownloaded = false;
+            this.isDownloading = false;
         }
         this.downloadItemsSubject.next(this.downloadItems);
     }

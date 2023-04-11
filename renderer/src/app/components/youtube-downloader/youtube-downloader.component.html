@@ -18,15 +18,15 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4 mt-1 d-flex justify-content-end mb-3 mb-md-0">
-            <button type="button" mat-fab extended color="accent" class="ms-2"
-                    (click)="clearDownloads()"
-                    *ngIf="dataSource.data.length > 0">
-                <mat-icon>playlist_remove</mat-icon>
-                Limpiar descargas
-            </button>
-        </div>
     </div>
+    <mat-toolbar>
+        <button type="button" mat-button color="accent" class="ms-2"
+                (click)="clearDownloads()"
+                [disabled]="dataSource.data.length === 0">
+            <mat-icon>playlist_remove</mat-icon>
+            Limpiar descargas
+        </button>
+    </mat-toolbar>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" >
         <ng-container matColumnDef="title">
             <th mat-header-cell *matHeaderCellDef>Título</th>
