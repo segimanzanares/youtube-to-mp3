@@ -1,6 +1,6 @@
 {
   "name": "youtube-to-mp3",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "main": "app/main.js",
   "build": {
     "appId": "Youtube2MP3"
@@ -18,7 +18,7 @@
     "node-id3": "^0.2.6",
     "queue": "^6.0.2",
     "sanitize-filename": "^1.6.3",
-    "ytdl-core": "github:fent/node-ytdl-core#pull/1203/head"
+    "ytdl-core": "^4.11.5"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.1.1",
@@ -60,7 +60,9 @@
               "depends": [
                 "ffmpeg"
               ],
-              "icon": "./app/assets/images/icon.png"
+              "icon": "./app/assets/images/icon.png",
+              "maintainer": "Segi Manzanares",
+              "homepage": "https://github.com/segimanzanares"
             }
           }
         },
