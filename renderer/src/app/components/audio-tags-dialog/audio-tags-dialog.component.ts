@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { AudioFile, ID3Tags } from './../../models/audiofile';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { IpcService } from './../../services/ipc.service';
 
 type AudioTagsForm = {
     [Property in keyof ID3Tags]-?: FormControl<ID3Tags[Property] | null>;
@@ -19,7 +20,8 @@ export class AudioTagsDialogComponent implements OnInit {
 
     constructor(
         public dialogRef: MatDialogRef<AudioTagsDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: AudioFile
+        @Inject(MAT_DIALOG_DATA) public data: AudioFile,
+        private ipcService: IpcService,
     ) {
         this.audioFile = this.data;
         this.form = new FormGroup<AudioTagsForm>({
@@ -48,6 +50,14 @@ export class AudioTagsDialogComponent implements OnInit {
 
     public onCancelClick(): void {
         this.dialogRef.close();
+    }
+
+    public onExtractClick(): void {
+        this.ipcService.readAudioTagsFromFilename([this.audioFile])
+            .then(response => {
+                this.form.get('title')?.setValue(response[0].tags.title);
+                this.form.get('artist')?.setValue(response[0].tags.artist);
+            });
     }
 }
 
