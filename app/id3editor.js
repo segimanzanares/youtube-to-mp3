@@ -22,6 +22,9 @@ const readId3Tags = filePath => {
     return {
         title: id3Tags.title,
         artist: id3Tags.artist,
+        album: id3Tags.album,
+        year: id3Tags.year,
+        image: id3Tags.image,
     }
 }
 
@@ -45,6 +48,9 @@ const readTagsFromFileName = filePath => {
 }
 
 const saveAudioTags = audioFile => {
+    if (audioFile.tags.image) {
+        audioFile.tags.image.imageBuffer = Buffer.from(audioFile.tags.image.imageBuffer)
+    }
     try {
         NodeID3.update(audioFile.tags, audioFile.path)
     } catch (err) {

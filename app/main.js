@@ -1,6 +1,8 @@
 const { app, BrowserWindow, Menu, ipcMain, dialog } = require('electron')
 const Store = require("electron-store");
 const path = require('path')
+const fs = require('fs')
+const mime = require('mime');
 const { handleYoutubeDownloadAudio, handleCancelDownload } = require('./downloader')
 const { readDirectoryAudioTags, readTagsFromFileName, saveAudioTags } = require('./id3editor');
 const store = new Store();
@@ -67,6 +69,23 @@ async function handleReadFolderAudioTags() {
     return readDirectoryAudioTags(folder)
 }
 
+async function handleReadImageFile() {
+    const { canceled, filePaths } = await dialog.showOpenDialog({
+        properties: ['openFile'],
+        filters: [{
+            extensions: ['png', 'jpeg'],
+            name: "Archivos de imagen",
+        }]
+    })
+    if (canceled) {
+        return null;
+    }
+    return {
+        buffer: fs.readFileSync(filePaths[0]),
+        mime: mime.getType(filePaths[0])
+    }
+}
+
 async function handleReadAudioTagsFromFilename(event, filePaths) {
     if (!filePaths) {
         return []
@@ -102,6 +121,7 @@ app.whenReady().then(() => {
     ipcMain.handle('tags:readFolderAudioTags', handleReadFolderAudioTags)
     ipcMain.handle('tags:readAudioTagsFromFilename', handleReadAudioTagsFromFilename)
     ipcMain.handle('tags:saveAudioTags', handleSaveAudioTags)
+    ipcMain.handle('dialog:readImageFile', handleReadImageFile)
     ipcMain.handle('storage:get', handleGetFromStorage)
     ipcMain.handle('app:getVersion', handleGetAppVersion)
     createWindow()
