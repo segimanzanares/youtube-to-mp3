@@ -25,6 +25,7 @@ const readId3Tags = filePath => {
         album: id3Tags.album,
         year: id3Tags.year,
         image: id3Tags.image,
+        genre: id3Tags.genre,
     }
 }
 
