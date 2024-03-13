@@ -1,15 +1,15 @@
 <h1 mat-dialog-title>Editar etiquetas</h1>
 <div mat-dialog-content>
-    <p>{{ audioFile.name }}</p>
+    <p>{{ !editMultiple ? audioFiles[0].name : "Múltiples archivos" }}</p>
     <form [formGroup]="form" (ngSubmit)="onSaveClick()">
-        <mat-form-field appearance="fill" class="w-100" color="accent">
+        <mat-form-field appearance="fill" class="w-100" color="accent" *ngIf="!editMultiple">
             <mat-label>Título</mat-label>
             <input matInput formControlName="title">
             <mat-error *ngIf="form.get('title')?.invalid">
                 Completa este campo
             </mat-error>
         </mat-form-field>
-        <mat-form-field appearance="fill" class="w-100" color="accent">
+        <mat-form-field appearance="fill" class="w-100" color="accent" *ngIf="!editMultiple">
             <mat-label>Artista</mat-label>
             <input matInput formControlName="artist">
             <mat-error *ngIf="form.get('artist')?.invalid">

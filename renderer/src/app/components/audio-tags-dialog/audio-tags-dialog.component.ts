@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
-import { AudioFile, ID3Tags } from './../../models/audiofile';
+import { AudioFile, ID3ImageTag, ID3Tags } from './../../models/audiofile';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IpcService } from './../../services/ipc.service';
 
@@ -14,28 +14,43 @@ type AudioTagsForm = {
     styleUrls: ['./audio-tags-dialog.component.scss']
 })
 export class AudioTagsDialogComponent implements OnInit {
-    public audioFile!: AudioFile;
+    public audioFiles!: AudioFile[];
     public form: FormGroup<AudioTagsForm>;
     public maxYear: number;
     public cover?: string;
+    public imageBuffer?: ID3ImageTag;
+    public editMultiple = false;
 
     constructor(
         public dialogRef: MatDialogRef<AudioTagsDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: AudioFile,
+        @Inject(MAT_DIALOG_DATA) public data: AudioFile[],
         private ipcService: IpcService,
     ) {
-        this.audioFile = this.data;
+        this.audioFiles = this.data;
+        this.editMultiple = this.audioFiles.length > 1;
         this.form = new FormGroup<AudioTagsForm>({
-            title: new FormControl(this.audioFile.tags.title ?? '', { nonNullable: true, validators: [Validators.required] }),
-            artist: new FormControl(this.audioFile.tags.artist ?? '', { nonNullable: true, validators: [Validators.required] }),
-            album: new FormControl(this.audioFile.tags.album ?? '', { nonNullable: false }),
-            genre: new FormControl(this.audioFile.tags.genre ?? '', { nonNullable: false }),
-            year: new FormControl(this.audioFile.tags.year ?? null, { nonNullable: false }),
+            title: new FormControl(
+                this.audioFiles[0].tags.title ?? '',
+                {
+                    nonNullable: !this.editMultiple,
+                    validators: !this.editMultiple ? [Validators.required] : null
+                }
+            ),
+            artist: new FormControl(
+                this.audioFiles[0].tags.artist ?? '',
+                {
+                    nonNullable: !this.editMultiple,
+                    validators: !this.editMultiple ? [Validators.required] : null
+                }
+            ),
+            album: new FormControl(this.audioFiles[0].tags.album ?? '', { nonNullable: false }),
+            genre: new FormControl(this.audioFiles[0].tags.genre ?? '', { nonNullable: false }),
+            year: new FormControl(this.audioFiles[0].tags.year ?? null, { nonNullable: false }),
         });
         this.maxYear = new Date().getFullYear();
-        if (this.audioFile.tags.image) {
+        if (!this.editMultiple && this.audioFiles[0].tags.image) {
             this.cover = URL.createObjectURL(
-                new Blob([this.audioFile.tags.image.imageBuffer], { type: this.audioFile.tags.image.mime })
+                new Blob([this.audioFiles[0].tags.image.imageBuffer], { type: this.audioFiles[0].tags.image.mime })
             );
         }
     }
@@ -46,12 +61,19 @@ export class AudioTagsDialogComponent implements OnInit {
         if (!this.form.valid) {
             return;
         }
-        this.audioFile.tags.title = this.form.value.title ?? void 0;
-        this.audioFile.tags.artist = this.form.value.artist ?? void 0;
-        this.audioFile.tags.album = this.form.value.album ?? void 0;
-        this.audioFile.tags.genre = this.form.value.genre ?? void 0;
-        this.audioFile.tags.year = this.form.value.year ?? void 0;
-        this.dialogRef.close(this.audioFile);
+        this.audioFiles.map(audioFile => {
+            if (!this.editMultiple) {
+                audioFile.tags.title = this.form.value.title ?? void 0;
+                audioFile.tags.artist = this.form.value.artist ?? void 0;
+            }
+            audioFile.tags.album = this.form.value.album ?? void 0;
+            audioFile.tags.genre = this.form.value.genre ?? void 0;
+            audioFile.tags.year = this.form.value.year ?? void 0;
+            if (this.imageBuffer) {
+                audioFile.tags.image = this.imageBuffer;
+            }
+        });
+        this.dialogRef.close(this.audioFiles);
     }
 
     public onCancelClick(): void {
@@ -59,7 +81,7 @@ export class AudioTagsDialogComponent implements OnInit {
     }
 
     public onExtractClick(): void {
-        this.ipcService.readAudioTagsFromFilename([this.audioFile])
+        this.ipcService.readAudioTagsFromFilename([this.audioFiles[0]])
             .then(response => {
                 this.form.get('title')?.setValue(response[0].tags.title);
                 this.form.get('artist')?.setValue(response[0].tags.artist);
@@ -74,7 +96,7 @@ export class AudioTagsDialogComponent implements OnInit {
             this.cover = URL.createObjectURL(
                 new Blob([response.buffer], { type: response.mime })
             );
-            this.audioFile.tags.image = {
+            this.imageBuffer = {
                 mime: response.mime,
                 type: {id: 3},
                 imageBuffer: response.buffer,
@@ -86,12 +108,12 @@ export class AudioTagsDialogComponent implements OnInit {
 
 export const showAudioTagsDialog = (
     dialog: MatDialog,
-    audioFile: AudioFile,
-    onSave: (audioFile: AudioFile) => void,
+    audioFiles: AudioFile[],
+    onSave: (audioFiles: AudioFile[]) => void,
     config?: MatDialogConfig<AudioFile>
 ) => {
     const dialogRef = dialog.open(AudioTagsDialogComponent, {
-        data: audioFile,
+        data: audioFiles,
         width: config?.width ?? '350px',
         disableClose: config?.disableClose ?? false,
     });

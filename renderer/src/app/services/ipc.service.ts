@@ -89,6 +89,88 @@ export class IpcService {
     }
 
     public async readFolderAudioTags(): Promise<AudioFile[]> {
+        /*return [
+            {
+                path: "/home/segi/Música/Banda Beats/Banda Beats Vol. 8/3ER Elemento - Ojitos De Miel (Segi Manzanares Remix).mp3",
+                name: "3ER Elemento - Ojitos De Miel (Segi Manzanares Remix).mp3",
+                tags: {
+                    title: "Ojitos De Miel (Segi Manzanares Remix)",
+                    artist: "3ER Elemento",
+                    album: "Banda Beats Vol. 8",
+                    year: 2024
+                }
+            },
+            {
+                path: "/home/segi/Música/Banda Beats/Banda Beats Vol. 8/Banda Los Recoditos - Hasta Que Salga El Sol (Segi Manzanares Remix).mp3",
+                name: "Banda Los Recoditos - Hasta Que Salga El Sol (Segi Manzanares Remix).mp3",
+                tags: {
+                    title: "Hasta que salga el sol (Segi Manzanares Remix)",
+                    artist: "Banda Los Recoditos",
+                    album: "Banda Beats Vol. 8",
+                    year: 2024
+                }
+            },
+            {
+                path: "/home/segi/Música/Banda Beats/Banda Beats Vol. 8/Edén Muñoz - Sueño Guajiro (Segi Manzanares Remix).mp3",
+                name: "Edén Muñoz - Sueño Guajiro (Segi Manzanares Remix).mp3",
+                tags: {
+                    title: "Sueño Guajiro (Segi Manzanares Remix)",
+                    artist: "Edén Muñoz",
+                    album: "Banda Beats Vol. 8",
+                    year: 2024
+                }
+            },
+            {
+                path: "/home/segi/Música/Banda Beats/Banda Beats Vol. 8/Gerardo Ortiz - Damaso (Segi Manzanares Remix).mp3",
+                name: "Gerardo Ortiz - Damaso (Segi Manzanares Remix).mp3",
+                tags: {
+                    title: "Damaso (Segi Manzanares Remix)",
+                    artist: "Gerardo Ortiz",
+                    album: "Banda Beats Vol. 8",
+                    year: 2024
+                }
+            },
+            {
+                path: "/home/segi/Música/Banda Beats/Banda Beats Vol. 8/Julión Álvarez Y Su Norteño Banda - Eres Todo Todo (Segi Manzanares Remix).mp3",
+                name: "Julión Álvarez Y Su Norteño Banda - Eres Todo Todo (Segi Manzanares Remix).mp3",
+                tags: {
+                    title: "Eres Todo Todo (segi Manzanares Remix)",
+                    artist: "Julión Álvarez Y Su Norteño Banda",
+                    album: "Banda Beats Vol. 8",
+                    year: 2024
+                }
+            },
+            {
+                path: "/home/segi/Música/Banda Beats/Banda Beats Vol. 8/Los Temerarios - Acepta Mi Error (Segi Manzanares Remix).mp3",
+                name: "Los Temerarios - Acepta Mi Error (Segi Manzanares Remix).mp3",
+                tags: {
+                    title: "Acepta Mi Error (Segi Manzanares Remix)",
+                    artist: "Los Temerarios",
+                    album: "Banda Beats Vol. 8",
+                    year: 2024
+                }
+            },
+            {
+                path: "/home/segi/Música/Banda Beats/Banda Beats Vol. 8/Sergio Vega - Cuando El Sol Salga Al Revés (Segi Manzanares Remix).mp3",
+                name: "Sergio Vega - Cuando El Sol Salga Al Revés (Segi Manzanares Remix).mp3",
+                tags: {
+                    title: "Cuando El Sol Salga Al Revés (Segi Manzanares Remix)",
+                    artist: "Sergio Vega",
+                    album: "Banda Beats Vol. 8",
+                    year: 2024
+                }
+            },
+            {
+                path: "/home/segi/Música/Banda Beats/Banda Beats Vol. 8/Xavi - La Diabla (Segi Manzanares Remix).mp3",
+                name: "Xavi - La Diabla (Segi Manzanares Remix).mp3",
+                tags: {
+                    title: "La Diabla (Segi Manzanares Remix)",
+                    artist: "Xavi",
+                    album: "Banda Beats Vol. 8",
+                    year: 2024
+                }
+            }
+        ];*/
         if (!this.isElectron()) {
             return Promise.reject();
         }

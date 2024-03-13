@@ -18,6 +18,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -64,6 +65,7 @@ import { AudioTagsDialogComponent } from './components/audio-tags-dialog/audio-t
         MatBadgeModule,
         MatToolbarModule,
         MatTooltipModule,
+        MatCheckboxModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
