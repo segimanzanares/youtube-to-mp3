@@ -6,6 +6,7 @@
     "appId": "Youtube2MP3"
   },
   "scripts": {
+    "view": "cd renderer && ng serve",
     "electron": "cd renderer && ng build && cd .. && electron .",
     "start": "electron-forge start",
     "package": "electron-forge package",
@@ -15,6 +16,7 @@
   "dependencies": {
     "electron-store": "^8.1.0",
     "fluent-ffmpeg": "^2.1.2",
+    "mime": "^3.0.0",
     "node-id3": "^0.2.6",
     "queue": "^6.0.2",
     "sanitize-filename": "^1.6.3",
