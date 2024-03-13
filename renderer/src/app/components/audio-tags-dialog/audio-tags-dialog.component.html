@@ -43,7 +43,7 @@
     </form>
 </div>
 <div mat-dialog-actions>
-    <button mat-button (click)="onExtractClick()">Extraer desde nombre de archivo</button>
+    <button mat-button (click)="onExtractClick()" *ngIf="!editMultiple">Extraer desde nombre de archivo</button>
     <button mat-button (click)="onSaveClick()" cdkFocusInitial>Guardar</button>
     <button mat-button (click)="onCancelClick()">Cancelar</button>
 </div>
