@@ -73,7 +73,7 @@ async function handleReadImageFile() {
     const { canceled, filePaths } = await dialog.showOpenDialog({
         properties: ['openFile'],
         filters: [{
-            extensions: ['png', 'jpeg'],
+            extensions: ['png', 'jpg', 'jpeg'],
             name: "Archivos de imagen",
         }]
     })
