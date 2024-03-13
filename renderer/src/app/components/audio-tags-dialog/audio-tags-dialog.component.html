@@ -20,6 +20,15 @@
             <mat-label>Album</mat-label>
             <input matInput formControlName="album">
         </mat-form-field>
+        <div class="mb-3">
+            <button type="button" mat-button (click)="readImageFile()">
+                <mat-icon>folder_open</mat-icon>
+                Seleccionar imagen
+            </button>
+            <div class="mt-2" *ngIf="cover">
+                <img [src]="cover" alt="Cover" style="max-height: 150px;" />
+            </div>
+        </div>
         <mat-form-field appearance="fill" class="w-100" color="accent">
             <mat-label>Género</mat-label>
             <input matInput formControlName="genre">

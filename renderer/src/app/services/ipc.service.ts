@@ -4,6 +4,11 @@ import { Observable } from 'rxjs';
 import { AudioFile, IAudioFile } from '../models/audiofile';
 import { DownloadInfo } from '../models/youtube-search';
 
+interface ImageBuffer {
+    mime: string;
+    buffer: Buffer;
+}
+
 interface CustomIpcRenderer extends IpcRenderer {
     downloadAudio: (videoId: string, title: string) => Promise<DownloadInfo>;
     cancelDownload: (videoId: string) => Promise<boolean>;
@@ -11,6 +16,7 @@ interface CustomIpcRenderer extends IpcRenderer {
     readFolderAudioTags: () => Promise<IAudioFile[]>;
     readAudioTagsFromFilename: (filePaths: string[]) => Promise<IAudioFile[]>;
     saveAudioTags: (audioFiles: IAudioFile[]) => Promise<boolean>;
+    readImageFile: () => Promise<ImageBuffer>;
     getFromStorage: (key: string) => Promise<string>;
     getAppVersion: () => Promise<string>;
 }
@@ -73,6 +79,13 @@ export class IpcService {
             return Promise.reject();
         }
         return await window.electronAPI.selectFolder();
+    }
+
+    public async readImageFile(): Promise<ImageBuffer> {
+        if (!this.isElectron()) {
+            return Promise.reject();
+        }
+        return await window.electronAPI.readImageFile();
     }
 
     public async readFolderAudioTags(): Promise<AudioFile[]> {

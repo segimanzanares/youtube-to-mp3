@@ -32,7 +32,7 @@ export class TagEditorComponent {
                 this.directoryPath = response[0].path.substring(0, response[0].path.lastIndexOf('/'))
                 this.dataSource.data = response;
             }
-        })
+        });
     }
 
     public editTags(audio: AudioFile) {

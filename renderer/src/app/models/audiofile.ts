@@ -1,9 +1,18 @@
+export interface ID3ImageTag {
+    mime: string;
+    type: {
+        id: number;
+    },
+    description?: string,
+    imageBuffer: Buffer
+}
 export interface ID3Tags {
     title?: string;
     artist?: string;
     album?: string;
     genre?: string;
     year?: number;
+    image?: ID3ImageTag;
 }
 export interface IAudioFile {
     path: string;

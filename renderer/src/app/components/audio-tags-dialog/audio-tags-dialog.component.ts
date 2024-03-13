@@ -5,7 +5,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IpcService } from './../../services/ipc.service';
 
 type AudioTagsForm = {
-    [Property in keyof ID3Tags]-?: FormControl<ID3Tags[Property] | null>;
+    [Property in keyof ID3Tags]?: FormControl<ID3Tags[Property] | null>;
 }
 
 @Component({
@@ -17,6 +17,7 @@ export class AudioTagsDialogComponent implements OnInit {
     public audioFile!: AudioFile;
     public form: FormGroup<AudioTagsForm>;
     public maxYear: number;
+    public cover?: string;
 
     constructor(
         public dialogRef: MatDialogRef<AudioTagsDialogComponent>,
@@ -32,6 +33,11 @@ export class AudioTagsDialogComponent implements OnInit {
             year: new FormControl(this.audioFile.tags.year ?? null, { nonNullable: false }),
         });
         this.maxYear = new Date().getFullYear();
+        if (this.audioFile.tags.image) {
+            this.cover = URL.createObjectURL(
+                new Blob([this.audioFile.tags.image.imageBuffer], { type: this.audioFile.tags.image.mime })
+            );
+        }
     }
 
     ngOnInit(): void { }
@@ -58,6 +64,23 @@ export class AudioTagsDialogComponent implements OnInit {
                 this.form.get('title')?.setValue(response[0].tags.title);
                 this.form.get('artist')?.setValue(response[0].tags.artist);
             });
+    }
+
+    public readImageFile() {
+        this.ipcService.readImageFile().then(response => {
+            if (!response) {
+                return;
+            }
+            this.cover = URL.createObjectURL(
+                new Blob([response.buffer], { type: response.mime })
+            );
+            this.audioFile.tags.image = {
+                mime: response.mime,
+                type: {id: 3},
+                imageBuffer: response.buffer,
+                description: "Cover",
+            };
+        });
     }
 }
 
