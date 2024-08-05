@@ -1,24 +1,26 @@
-const NodeID3 = require('node-id3')
-const fs = require('fs')
-const path = require('path');
+import nodeid3 from 'node-id3';
+import { readdirSync } from 'fs';
+import { join, basename } from 'path';
 
-const readDirectoryAudioTags = directoryPath => {
+const { read, update, write } = nodeid3;
+
+export const readDirectoryAudioTags = directoryPath => {
     let filesTags = [];
-    fs.readdirSync(directoryPath).forEach(file => {
+    readdirSync(directoryPath).forEach(file => {
         if (!file.endsWith('.mp3')) {
             return
         }
         filesTags.push({
-            path: path.join(directoryPath, file),
-            name: path.basename(file),
-            tags: readId3Tags(path.join(directoryPath, file))
+            path: join(directoryPath, file),
+            name: basename(file),
+            tags: readId3Tags(join(directoryPath, file))
         })
     })
     return filesTags
 }
 
 const readId3Tags = filePath => {
-    const id3Tags = NodeID3.read(filePath)
+    const id3Tags = read(filePath)
     return {
         title: id3Tags.title,
         artist: id3Tags.artist,
@@ -29,9 +31,9 @@ const readId3Tags = filePath => {
     }
 }
 
-const readTagsFromFileName = filePath => {
-    const id3Tags = NodeID3.read(filePath)
-    const name = path.basename(filePath, '.mp3')
+export const readTagsFromFileName = filePath => {
+    const id3Tags = read(filePath)
+    const name = basename(filePath, '.mp3')
     const index = name.lastIndexOf(' - ')
     let tags = {
         title: titleCase(id3Tags.title),
@@ -48,14 +50,14 @@ const readTagsFromFileName = filePath => {
     return tags;
 }
 
-const saveAudioTags = audioFile => {
+export const saveAudioTags = audioFile => {
     if (audioFile.tags.image) {
         audioFile.tags.image.imageBuffer = Buffer.from(audioFile.tags.image.imageBuffer)
     }
     try {
-        NodeID3.update(audioFile.tags, audioFile.path)
+        update(audioFile.tags, audioFile.path)
     } catch (err) {
-        NodeID3.write(audioFile.tags, audioFile.path)
+        write(audioFile.tags, audioFile.path)
     }
 }
 
@@ -70,20 +72,20 @@ const titleCase = (str) => {
 
 if (process.argv.length > 2) {
     const directoryPath = process.argv[2]
-    fs.readdirSync(directoryPath).forEach(file => {
+    readdirSync(directoryPath).forEach(file => {
         if (!file.endsWith('.mp3')) {
             return
         }
         console.log({
-            path: path.join(directoryPath, file),
-            name: path.basename(file),
-            tags: readTagsFromFileName(path.join(directoryPath, file))
+            path: join(directoryPath, file),
+            name: basename(file),
+            tags: readTagsFromFileName(join(directoryPath, file))
         })
     })
 }
 
-module.exports = {
+/*export default {
     readDirectoryAudioTags,
     readTagsFromFileName,
     saveAudioTags,
-}
+}*/

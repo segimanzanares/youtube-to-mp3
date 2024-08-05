@@ -1,19 +1,24 @@
-const { app, BrowserWindow, Menu, ipcMain, dialog } = require('electron')
-const Store = require("electron-store");
-const path = require('path')
-const fs = require('fs')
-const mime = require('mime');
-const { handleYoutubeDownloadAudio, handleCancelDownload } = require('./downloader')
-const { readDirectoryAudioTags, readTagsFromFileName, saveAudioTags } = require('./id3editor');
+import { app, BrowserWindow, Menu, ipcMain, dialog } from 'electron';
+import Store from "electron-store";
+import { join, basename, dirname } from 'path';
+import { fileURLToPath } from 'url';
+import { readFileSync } from 'fs';
+import mime from 'mime';
+import { handleYoutubeDownloadAudio, handleCancelDownload } from './downloader.js';
+import { readDirectoryAudioTags, readTagsFromFileName, saveAudioTags } from './id3editor.js';
+
 const store = new Store();
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 function createWindow() {
     const mainWindow = new BrowserWindow({
         webPreferences: {
-            preload: path.join(__dirname, 'preload.js')
+            nodeIntegration: true,
+            preload: join(__dirname, 'preload.mjs')
         },
-        icon: path.join(__dirname, 'assets/images/icon.png')
+        icon: join(__dirname, 'assets/images/icon.png'),
     })
+    mainWindow.webContents.openDevTools();
     const menu = Menu.buildFromTemplate([
         {
             label: "Archivo",
@@ -42,7 +47,7 @@ function createWindow() {
     ])
     Menu.setApplicationMenu(menu)
     mainWindow.loadFile(
-        path.join(__dirname, '../dist/index.html')
+        join(__dirname, '../dist/index.html')
     )
 }
 
@@ -81,7 +86,7 @@ async function handleReadImageFile() {
         return null;
     }
     return {
-        buffer: fs.readFileSync(filePaths[0]),
+        buffer: readFileSync(filePaths[0]),
         mime: mime.getType(filePaths[0])
     }
 }
@@ -92,7 +97,7 @@ async function handleReadAudioTagsFromFilename(event, filePaths) {
     }
     return filePaths.map(f => ({
         path: f,
-        name: path.basename(f),
+        name: basename(f),
         tags: readTagsFromFileName(f),
     }))
 }

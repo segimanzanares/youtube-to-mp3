@@ -1,10 +1,10 @@
-const ytdl = require('ytdl-core')
-const ffmpeg = require('fluent-ffmpeg')
-const sanitize = require("sanitize-filename")
-const Store = require("electron-store")
-const queue = require('queue')
+import ytdl from 'ytdl-core';
+import ffmpeg from 'fluent-ffmpeg';
+import sanitize from "sanitize-filename";
+import Store from "electron-store";
+import Queue from 'queue';
 
-let q = queue({ results: [] })
+const q = new Queue({ results: [] })
 q.concurrency = 1
 const store = new Store()
 let downloads = []
@@ -39,7 +39,7 @@ const ffmpegSync = (event, info) => {
     })
  }
 
-const handleYoutubeDownloadAudio = async (event, videoId, title) => {
+export const handleYoutubeDownloadAudio = async (event, videoId, title) => {
     const starttime = Date.now();
     let info = {
         videoId: videoId,
@@ -69,7 +69,7 @@ const handleYoutubeDownloadAudio = async (event, videoId, title) => {
     return info
 }
 
-const handleCancelDownload = (event, videoId) => {
+export const handleCancelDownload = (event, videoId) => {
     const index = downloads.findIndex(d => d.videoId === videoId)
     if (index !== -1 && downloads[index].status === 'waiting') {
         downloads[index].status = 'canceled'
@@ -80,7 +80,7 @@ const handleCancelDownload = (event, videoId) => {
     return false
 }
 
-module.exports = {
+/*export default {
     handleYoutubeDownloadAudio,
     handleCancelDownload,
-}
+}*/
