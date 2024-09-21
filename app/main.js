@@ -18,7 +18,6 @@ function createWindow() {
         },
         icon: join(__dirname, 'assets/images/icon.png'),
     })
-    mainWindow.webContents.openDevTools();
     const menu = Menu.buildFromTemplate([
         {
             label: "Archivo",

@@ -1,8 +1,9 @@
-import ytdl from 'ytdl-core';
+//import ytdl from 'ytdl-core';
 import ffmpeg from 'fluent-ffmpeg';
 import sanitize from "sanitize-filename";
 import Store from "electron-store";
 import Queue from 'queue';
+import ytdl from '@distube/ytdl-core';
 
 const q = new Queue({ results: [] })
 q.concurrency = 1
@@ -56,6 +57,7 @@ export const handleYoutubeDownloadAudio = async (event, videoId, title) => {
         try {
             await ffmpegSync(event, info)
         } catch (e) {
+            console.error(e);
             info.status = 'error'
             info.details = "Error"
             info.finishedAt = Date.now();
