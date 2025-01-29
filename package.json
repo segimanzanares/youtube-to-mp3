@@ -46,7 +46,9 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "electron_quick_start"
+            "name": "Youtube 2 MP3",
+            "author": "Segi Manzanares",
+            "description": "App for downloading mp3 audio from Youtube videos."
           }
         },
         {
