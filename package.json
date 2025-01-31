@@ -46,9 +46,15 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "Youtube 2 MP3",
-            "author": "Segi Manzanares",
-            "description": "App for downloading mp3 audio from Youtube videos."
+            "name": "Youtube2MP3",
+            "authors": "Segi Manzanares",
+            "description": "App for downloading mp3 audio from Youtube videos.",
+            "dependencies": [
+              {
+                "id": "ffmpeg",
+                "version": "7.1"
+              }
+            ]
           }
         },
         {
