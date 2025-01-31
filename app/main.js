@@ -6,6 +6,11 @@ import { readFileSync } from 'fs';
 import mime from 'mime';
 import { handleYoutubeDownloadAudio, handleCancelDownload } from './downloader.js';
 import { readDirectoryAudioTags, readTagsFromFileName, saveAudioTags } from './id3editor.js';
+import checkWinStartup from './check-win.js';
+
+if (checkWinStartup()) {
+    app.quit();
+}
 
 const store = new Store();
 const __dirname = dirname(fileURLToPath(import.meta.url));
