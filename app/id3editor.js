@@ -4,7 +4,7 @@ import { join, basename } from 'path';
 
 const { read, update, write } = nodeid3;
 
-export const readDirectoryAudioTags = directoryPath => {
+export const readDirectoryAudioTags = (directoryPath) => {
     let filesTags = [];
     readdirSync(directoryPath).forEach(file => {
         if (!file.endsWith('.mp3')) {
@@ -19,7 +19,7 @@ export const readDirectoryAudioTags = directoryPath => {
     return filesTags
 }
 
-const readId3Tags = filePath => {
+const readId3Tags = (filePath) => {
     const id3Tags = read(filePath)
     return {
         title: id3Tags.title,
@@ -31,7 +31,7 @@ const readId3Tags = filePath => {
     }
 }
 
-export const readTagsFromFileName = filePath => {
+export const readTagsFromFileName = (filePath) => {
     const id3Tags = read(filePath)
     const name = basename(filePath, '.mp3')
     const index = name.lastIndexOf(' - ')
@@ -50,7 +50,7 @@ export const readTagsFromFileName = filePath => {
     return tags;
 }
 
-export const saveAudioTags = audioFile => {
+export const saveAudioTags = (audioFile) => {
     if (audioFile.tags.image) {
         audioFile.tags.image.imageBuffer = Buffer.from(audioFile.tags.image.imageBuffer)
     }
@@ -83,9 +83,3 @@ if (process.argv.length > 2) {
         })
     })
 }
-
-/*export default {
-    readDirectoryAudioTags,
-    readTagsFromFileName,
-    saveAudioTags,
-}*/
