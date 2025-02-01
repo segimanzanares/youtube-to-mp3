@@ -69,17 +69,3 @@ const titleCase = (str) => {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
 }
-
-if (process.argv.length > 2) {
-    const directoryPath = process.argv[2]
-    readdirSync(directoryPath).forEach(file => {
-        if (!file.endsWith('.mp3')) {
-            return
-        }
-        console.log({
-            path: join(directoryPath, file),
-            name: basename(file),
-            tags: readTagsFromFileName(join(directoryPath, file))
-        })
-    })
-}
