@@ -4,14 +4,15 @@ const path = require('path');
 
 module.exports = {
     packagerConfig: {
-        asar: false,
+        asar: true,
         ignore: [
             "renderer",
             ".nvmrc",
             ".gitignore",
             ".editorconfig",
             ".vscode"
-        ]
+        ],
+        executableName: "youtube-to-mp3"
     },
     rebuildConfig: {},
     makers: [
@@ -50,10 +51,10 @@ module.exports = {
         },
     ],
     plugins: [
-        /*{
+        {
           name: '@electron-forge/plugin-auto-unpack-natives',
           config: {},
-        },*/
+        },
         // Fuses are used to enable/disable various Electron functionality
         // at package time, before code signing the application
         new FusesPlugin({
@@ -63,7 +64,7 @@ module.exports = {
             [FuseV1Options.EnableNodeOptionsEnvironmentVariable]: false,
             [FuseV1Options.EnableNodeCliInspectArguments]: false,
             [FuseV1Options.EnableEmbeddedAsarIntegrityValidation]: true,
-            [FuseV1Options.OnlyLoadAppFromAsar]: false,
+            [FuseV1Options.OnlyLoadAppFromAsar]: true,
         }),
     ],
 };
