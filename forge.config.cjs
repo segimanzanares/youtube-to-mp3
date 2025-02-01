@@ -12,7 +12,8 @@ module.exports = {
             ".editorconfig",
             ".vscode"
         ],
-        executableName: "youtube-to-mp3"
+        executableName: "youtube-to-mp3",
+        icon: path.resolve(__dirname, "./app/assets/images/icon")
     },
     rebuildConfig: {},
     makers: [
@@ -22,8 +23,7 @@ module.exports = {
                 name: "Youtube2MP3",
                 authors: "Segi Manzanares",
                 description: "App for downloading mp3 audio from Youtube videos.",
-                iconUrl: path.join(__dirname, "/app/assets/images/icon.png"),
-                //setupIcon: path.join(__dirname, "/app/assets/images/icon.ico")
+                setupIcon: path.resolve(__dirname, "./app/assets/images/icon.ico")
             }
         },
         {
