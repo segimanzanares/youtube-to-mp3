@@ -9,6 +9,12 @@ interface ImageBuffer {
     buffer: Buffer;
 }
 
+interface AppInfo {
+    name: string;
+    version: string;
+    author: string;
+}
+
 interface CustomIpcRenderer extends IpcRenderer {
     downloadAudio: (videoId: string, title: string) => Promise<DownloadInfo>;
     cancelDownload: (videoId: string) => Promise<boolean>;
@@ -18,7 +24,7 @@ interface CustomIpcRenderer extends IpcRenderer {
     saveAudioTags: (audioFiles: IAudioFile[]) => Promise<boolean>;
     readImageFile: () => Promise<ImageBuffer>;
     getFromStorage: (key: string) => Promise<string>;
-    getAppVersion: () => Promise<string>;
+    getAppInfo: () => Promise<AppInfo>;
 }
 
 declare global {
@@ -200,10 +206,10 @@ export class IpcService {
         return await window.electronAPI.getFromStorage(key);
     }
 
-    public async getAppVersion(): Promise<string> {
+    public async getAppInfo(): Promise<AppInfo> {
         if (!this.isElectron()) {
             return Promise.reject();
         }
-        return await window.electronAPI.getAppVersion();
+        return await window.electronAPI.getAppInfo();
     }
 }

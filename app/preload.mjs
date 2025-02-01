@@ -12,5 +12,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
     saveAudioTags: (audioFiles) => ipcRenderer.invoke('tags:saveAudioTags', audioFiles),
     readImageFile: () => ipcRenderer.invoke('dialog:readImageFile'),
     getFromStorage: (key) => ipcRenderer.invoke('storage:get', key),
-    getAppVersion: () => ipcRenderer.invoke('app:getVersion')
+    getAppInfo: () => ipcRenderer.invoke('app:getInfo')
 })

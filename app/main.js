@@ -119,8 +119,12 @@ function handleGetFromStorage(event, key) {
     return val
 }
 
-function handleGetAppVersion() {
-    return app.getVersion()
+function handleGetAppInfo() {
+    const info = {};
+    info.name = app.getName();
+    info.version = app.getVersion();
+    info.author = "Segi Manzanares";
+    return info;
 }
 
 app.whenReady().then(() => {
@@ -132,7 +136,7 @@ app.whenReady().then(() => {
     ipcMain.handle('tags:saveAudioTags', handleSaveAudioTags)
     ipcMain.handle('dialog:readImageFile', handleReadImageFile)
     ipcMain.handle('storage:get', handleGetFromStorage)
-    ipcMain.handle('app:getVersion', handleGetAppVersion)
+    ipcMain.handle('app:getInfo', handleGetAppInfo)
     createWindow()
     app.on('activate', function () {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()

@@ -55,16 +55,18 @@ export class AppComponent implements OnInit, OnDestroy {
             return;
         }
         this.aboutDisplayed = true;
-        this.ipcService.getAppVersion()
-            .then(response => {
+        this.ipcService.getAppInfo()
+            .then(info => {
+                const message = `${info.name}\nVersión ${info.version}\nDesarrollado por ${info.author}`;
                 showAlertDialog(this.dialog, {
                     data: {
                         title: "Acerca de",
-                        message: "Youtube 2 MP3\nversion " + response,
+                        message: message,
                         type: 'info',
                         callback: () => this.aboutDisplayed = false,
                     },
                     disableClose: true,
+                    width: '380px',
                 });
             })
             .catch(() => { });
