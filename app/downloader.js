@@ -4,6 +4,16 @@ import sanitize from "sanitize-filename";
 import Store from "electron-store";
 import Queue from 'queue';
 import ytdl from '@distube/ytdl-core';
+import log from 'electron-log/node.js';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+if (process.platform === 'win32') {
+    ffmpeg.setFfmpegPath(join(__dirname, '..', 'deps/ffmpeg.exe'));
+    ffmpeg.setFfprobePath(join(__dirname, '..', 'deps/ffprobe.exe'));
+}
 
 const q = new Queue({ results: [] })
 q.concurrency = 1
@@ -58,6 +68,7 @@ export const handleYoutubeDownloadAudio = async (event, videoId, title) => {
             await ffmpegSync(event, info)
         } catch (e) {
             console.error(e);
+            log.error(e);
             info.status = 'error'
             info.details = "Error"
             info.finishedAt = Date.now();
@@ -81,8 +92,3 @@ export const handleCancelDownload = (event, videoId) => {
     }
     return false
 }
-
-/*export default {
-    handleYoutubeDownloadAudio,
-    handleCancelDownload,
-}*/
