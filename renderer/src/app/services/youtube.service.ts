@@ -68,7 +68,10 @@ export class YoutubeService {
             }
         });
         this.downloadItems = [...items];
-        if (this.downloadItems.length === 0) {
+        if (
+            this.downloadItems.length === 0
+            || items.filter(item => item.hasError()).length === this.downloadItems.length
+        ) {
             this.isDownloading = false;
         }
         this.downloadItemsSubject.next(this.downloadItems);
