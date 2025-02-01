@@ -2,7 +2,7 @@
   "name": "youtube-to-mp3",
   "version": "1.1.0",
   "scripts": {
-    "ng": "ng",
+    "ng": "node node_modules/@angular/cli/bin/ng",
     "serve": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
