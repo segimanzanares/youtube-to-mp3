@@ -1,5 +1,5 @@
 {
-  "name": "youtube-to-mp3",
+  "name": "youtube2mp3",
   "productName": "Youtube2MP3",
   "version": "1.2.2",
   "main": "app/main.js",

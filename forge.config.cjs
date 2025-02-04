@@ -12,7 +12,7 @@ module.exports = {
             ".editorconfig",
             ".vscode"
         ],
-        executableName: "youtube-to-mp3",
+        executableName: "youtube2mp3",
         icon: path.resolve(__dirname, "./app/assets/images/icon")
     },
     rebuildConfig: {},
