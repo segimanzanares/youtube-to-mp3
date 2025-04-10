@@ -1,7 +1,7 @@
 {
   "name": "youtube2mp3",
   "productName": "Youtube2MP3",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "main": "app/main.js",
   "build": {
     "appId": "Youtube2MP3"
