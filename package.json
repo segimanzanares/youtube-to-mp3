@@ -16,7 +16,7 @@
   },
   "private": true,
   "dependencies": {
-    "@distube/ytdl-core": "^4.16",
+    "@distube/ytdl-core": "^4.16.8",
     "electron-log": "^5.3.0",
     "electron-squirrel-startup": "^1.0.1",
     "electron-store": "^10.0",
