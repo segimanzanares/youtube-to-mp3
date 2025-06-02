@@ -1,7 +1,7 @@
 {
   "name": "youtube2mp3",
   "productName": "Youtube2MP3",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "main": "app/main.js",
   "build": {
     "appId": "Youtube2MP3"
@@ -16,7 +16,7 @@
   },
   "private": true,
   "dependencies": {
-    "@distube/ytdl-core": "^4.16.8",
+    "@distube/ytdl-core": "^4.16.10",
     "electron-log": "^5.3.0",
     "electron-squirrel-startup": "^1.0.1",
     "electron-store": "^10.0",
