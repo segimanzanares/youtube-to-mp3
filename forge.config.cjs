@@ -37,6 +37,7 @@ module.exports = {
                     productName: "Youtube 2 MP3",
                     description: "App for downloading mp3 audio from Youtube videos.",
                     depends: [
+                        "yt-dlp",
                         "ffmpeg"
                     ],
                     icon: "./app/assets/images/icon.png",
